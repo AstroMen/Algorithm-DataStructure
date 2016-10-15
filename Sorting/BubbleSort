@@ -1,0 +1,48 @@
+#include <iostream>
+using namespace std;
+
+void BubbleSort(int* a, int size, int &times)
+{
+    int i,t;
+    bool bBubble = true;
+    int startchange = 0;
+    int lastchange = size-1;
+    while(bBubble)
+    {
+        bBubble = false;
+        for(i = startchange; i < lastchange; i++)
+        {
+            times++;
+            if(a[i] > a[i+1])
+            {
+                t = a[i];
+                a[i] = a[i+1];
+                a[i+1] = t;
+                bBubble = true;
+                t = i;
+            }
+            else if(!bBubble)
+            {
+                startchange++;
+            }
+        }
+        if(!bBubble)
+            break;
+        if(startchange)
+            startchange--;
+        lastchange = t;
+    }
+}
+
+int main()
+{
+    int a[]={8, 1, 5, 9, 19, 13, 6, 10};
+    int n=sizeof(a)/sizeof(int);
+    int times = 0;
+    BubbleSort(a, n, times);
+    for(int i = 0; i < n; i++)
+        cout << a[i] << " ";
+    cout << endl;
+    cout << "times: " << times << endl;
+    return 0;
+}
