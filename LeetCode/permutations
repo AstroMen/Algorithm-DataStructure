@@ -37,7 +37,6 @@ private:
         {
             for(int i=start;i<nums.size();i++)
             {
-                if (i > start && nums[i] == nums[i-1]) continue;    //prevent duplicates
                 swap(nums[start], nums[i]);
                 permute(nums, start+1, result);
                 swap(nums[start], nums[i]);
