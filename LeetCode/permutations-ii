@@ -1,0 +1,80 @@
+// Source : https://leetcode.com/problems/permutations-ii/
+// Time:  O(n!)
+// Space: O(1)
+
+/********************************************************************************** 
+* 
+* Given a collection of numbers that might contain duplicates, return all possible unique permutations. 
+* 
+* For example,
+* [1,1,2] have the following unique permutations:
+* [
+*   [1,1,2],
+*   [1,2,1],
+*   [2,1,1]
+* ]
+*    
+**********************************************************************************/
+
+class Solution {
+public:
+void helper(vector<vector<int>>& res, int pos, vector<int>& nums)
+{
+    if(pos == nums.size())
+    {
+        res.push_back(nums);
+        return;
+    }
+    for(int i = pos; i < nums.size(); ++i)
+    {
+        if(i != pos && nums[i] == nums[pos]) continue;
+        swap(nums[i], nums[pos]);
+        helper(res, pos + 1, nums);
+    }
+    
+    // optimized sort from pos to n-1 ==> sort(nums.begin() + pos, nums.end());
+    int temp_last = nums[pos];
+    for (int i = pos + 1; i < nums.size(); i++) {
+        nums[i-1] = nums[i];
+    }
+    nums[nums.size()-1] = temp_last;
+}
+vector<vector<int>> permuteUnique(vector<int>& nums) {
+        vector<vector<int>> res;
+        if(nums.empty()) return res;
+        sort(nums.begin(), nums.end());
+        helper(res, 0, nums);
+        return res;
+    }
+};
+
+class Solution {
+public:
+    void solve(vector<int> nums,vector<int>& curr, vector<vector<int>>& res, vector<bool>& used)
+    {
+        if(curr.size()==nums.size())
+        {
+            res.push_back(curr);
+            return;
+        }
+        for(int i=0;i<nums.size();i++)
+        {
+           if(used[i] || (i>0 && nums[i]==nums[i-1] && used[i-1] ))
+            continue;
+            used[i]=true;
+            curr.push_back(nums[i]);
+            solve(nums,curr,res,used);
+            used[i]=false;
+            curr.pop_back();
+        }
+    }
+
+    vector<vector<int>> permuteUnique(vector<int>& nums) {
+        sort(nums.begin(),nums.end());
+        vector<vector<int> > res;
+        vector<int> curr;
+        vector<bool> used(nums.size(),0);
+        solve(nums,curr,res,used);
+        return res;
+    }
+};
