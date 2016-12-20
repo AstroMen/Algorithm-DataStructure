@@ -18,28 +18,151 @@
 
 class Solution {
 public:
-void helper(vector<vector<int>>& res, int pos, vector<int>& nums)
-{
-    if(pos == nums.size())
-    {
-        res.push_back(nums);
-        return;
+    vector<vector<int> > permuteUnique(vector<int> &num) {
+        vector<vector<int>> v;
+        vector<int> r;
+        map<int, int> map;
+        for (int i : num)
+        {
+            if (map.find(i) == map.end()) map[i] = 0;
+            map[i]++;
+        }
+        permuteUnique(v, r, map, num.size());
+        return v;
     }
-    for(int i = pos; i < nums.size(); ++i)
+
+    void permuteUnique(vector<vector<int>> &v, vector<int> &r, map<int, int> &map, int n)
     {
-        if(i != pos && nums[i] == nums[pos]) continue;
-        swap(nums[i], nums[pos]);
-        helper(res, pos + 1, nums);
+        if (n <= 0)
+        {
+            v.push_back(r);
+            return;
+        }
+        for (auto &p : map)
+        {
+            if (p.second <= 0) continue;
+            p.second--;
+            r.push_back(p.first);
+            permuteUnique(v, r, map, n - 1);
+            r.pop_back();
+            p.second++;
+        }
+    }
+};
+
+class Solution {
+public:
+    std::vector<std::vector<int> > permute(std::vector<int> &nums) {
+        std::vector<std::vector<int> > res;
+		std::vector<int> perm;
+		permute(res, nums, perm);
+		return res;
+    }
+private:
+	void permute(std::vector<std::vector<int> > &res, std::vector<int> &nums, std::vector<int> &perm) {
+		if (nums.empty()) {
+			res.push_back(perm);
+			return;
+		}
+		for (std::size_t i = 0; i != nums.size(); ++i) {
+			int num = nums[i];
+			perm.push_back(num);
+			nums.erase(nums.begin() + i);
+			permute(res, nums, perm);
+			nums.insert(nums.begin() + i, num);
+			perm.pop_back();
+		}
+	}
+};
+
+class Solution {
+public:
+    vector<vector<int> > permuteUnique(vector<int> &num) {
+        vector<vector<int> > result;
+        int n = num.size();
+        if (n > 0) {
+            helper(num, 0, n, result);
+        }
+        return result;
     }
     
-    // optimized sort from pos to n-1 ==> sort(nums.begin() + pos, nums.end());
-    int temp_last = nums[pos];
-    for (int i = pos + 1; i < nums.size(); i++) {
-        nums[i-1] = nums[i];
+    void helper(vector<int>& a, int pos, int n, vector<vector<int> >& result) {
+        if (pos == n-1) {
+            result.push_back(a);
+            return;
+        }
+        
+        unordered_set<int> swapped;
+        for (int i = pos; i < n; ++i) {
+            if (swapped.find(a[i]) != swapped.end()) continue;
+            swapped.insert(a[i]);
+            swap(a[pos], a[i]);
+            helper(a, pos+1, n, result);
+            swap(a[pos], a[i]);
+        }
     }
-    nums[nums.size()-1] = temp_last;
-}
-vector<vector<int>> permuteUnique(vector<int>& nums) {
+};
+
+//26ms
+class Solution {
+public:
+    vector<vector<int> > permuteUnique(vector<int> &num) {
+        vector<vector<int>> v;
+        vector<int> r;
+        map<int, int> map;
+        for (int i : num)
+        {
+            if (map.find(i) == map.end()) map[i] = 0;
+            map[i]++;
+        }
+        permuteUnique(v, r, map, num.size());
+        return v;
+    }
+
+    void permuteUnique(vector<vector<int>> &v, vector<int> &r, map<int, int> &map, int n)
+    {
+        if (n <= 0)
+        {
+            v.push_back(r);
+            return;
+        }
+        for (auto &p : map)
+        {
+            if (p.second <= 0) continue;
+            p.second--;
+            r.push_back(p.first);
+            permuteUnique(v, r, map, n - 1);
+            r.pop_back();
+            p.second++;
+        }
+    }
+};
+
+//43ms
+class Solution {
+public:
+    void helper(vector<vector<int>>& res, int pos, vector<int>& nums)
+    {
+        if(pos == nums.size())
+        {
+            res.push_back(nums);
+            return;
+        }
+        for(int i = pos; i < nums.size(); ++i)
+        {
+            if(i != pos && nums[i] == nums[pos]) continue;
+            swap(nums[i], nums[pos]);
+            helper(res, pos + 1, nums);
+        }
+
+        // optimized sort from pos to n-1 ==> sort(nums.begin() + pos, nums.end());
+        int temp_last = nums[pos];
+        for (int i = pos + 1; i < nums.size(); i++) {
+            nums[i-1] = nums[i];
+        }
+        nums[nums.size()-1] = temp_last;
+    }
+    vector<vector<int>> permuteUnique(vector<int>& nums) {
         vector<vector<int>> res;
         if(nums.empty()) return res;
         sort(nums.begin(), nums.end());
@@ -48,6 +171,7 @@ vector<vector<int>> permuteUnique(vector<int>& nums) {
     }
 };
 
+//59ms
 class Solution {
 public:
     void solve(vector<int> nums,vector<int>& curr, vector<vector<int>>& res, vector<bool>& used)
