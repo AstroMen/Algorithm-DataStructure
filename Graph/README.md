@@ -6,14 +6,13 @@ UnionFindSet
 * 求给定图G的连通分量的数目。
 
 ArticulationPoint
-
-给定某无向连通图G，若删除某结点X已经  与X相邻接的所有边，图G变成非连通图，  则结点X称为图G的割点。
-问：给定某图的邻接矩阵或邻接表，如何计算该图的所有割点？
+* 给定某无向连通图G，若删除某结点X已经  与X相邻接的所有边，图G变成非连通图，  则结点X称为图G的割点。
+* 问：给定某图的邻接矩阵或邻接表，如何计算该图的所有割点？
 
 ![image](https://github.com/AstroMen/Algorithm-DataStructure/blob/master/Graph/ArticulationPoint.JPG)
 
 ArticulationEdge
-给定某无向连通图G，若删除某边E，则图G变成非连通图，则边E称为图G的割边。
-问：给定某图的邻接矩阵或邻接表，如何计算该图的所有割边？
+* 给定某无向连通图G，若删除某边E，则图G变成非连通图，则边E称为图G的割边。
+* 问：给定某图的邻接矩阵或邻接表，如何计算该图的所有割边？
 
 
