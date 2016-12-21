@@ -1,0 +1,65 @@
+#include <iostream>
+#include <queue>
+#include <string.h>
+using namespace std;
+const int N = 13;
+/*
+    拓扑排序的方法
+    从有向图中选择一个没有前驱(即入度为0)的顶点并且输出它；
+    从网中删去该顶点，并且删去从该顶点发出的全部有向边；
+    重复上述两步，直到剩余的网中不再存在没有前驱的顶点为止。
+*/
+// toposort存储排序后的结点，结点数为n，邻接矩阵gragh[n][n]存储边权，indegree[n]存储每个结点的入度
+void topologic(int* toposort, int n, int graph[N][N], int indegree[])
+{
+    int cnt = 0;  // 当前拓扑排序列表中有多少结点
+    queue<int> q;  // 保存入度为0的结点：还可以用栈甚至随机取
+    int i;
+    for(i=0;i<n;i++)
+    {
+        if(indegree[i]==0)
+            q.push(i);
+    }
+    int cur;  // 当前入度为0的结点
+    while(!q.empty())
+    {
+        cur=q.front();
+        q.pop();
+        toposort[cnt++]=cur;
+        for(i=0;i<n;i++)
+        {
+            if(graph[cur][i]!=0)
+            {
+                indegree[i]--;
+                if(indegree[i]==0)
+                    q.push(i);
+            }
+        }
+    }
+}
+
+int main()
+{
+    int graph[N][N];
+    memset(graph,0,sizeof(int)*N*N);
+    graph[0][1]=graph[0][5]=graph[0][6]=1;
+    graph[2][0]=graph[2][3]=1;
+    graph[3][5]=1;
+    graph[5][4]=1;
+    graph[6][4]=graph[6][9]=1;
+    graph[7][6]=1;
+    graph[8][7]=1;
+    graph[9][10]=graph[9][11]=graph[9][12]=1;
+    graph[11][12]=1;
+    int indegree[N]={1,1,0,1,2,2,2,1,0,1,1,1,2};
+    int toposort[N];
+
+    topologic(toposort, N, graph, indegree);
+    cout << toposort[0];
+    for(int i=1;i<N;i++)
+    {
+        cout << " -> " << toposort[i];
+    }
+    cout << endl;
+    return 0;
+}
