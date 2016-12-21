@@ -98,7 +98,7 @@ void CreateAVL(TreeNode<T>* &root, int* a, int n)
     {
         if(!root)
             root = new TreeNode<T>(a[i]);
-	    else
+	else
             Insertpri(root, a[i]);
     }
 }
