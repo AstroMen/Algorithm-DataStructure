@@ -1,0 +1,205 @@
+#include <iostream>
+#include <algorithm>
+
+using namespace std;
+
+template<class T>
+class TreeNode
+{
+public:
+	TreeNode *lson, *rson;
+	T value;
+	int hgt;
+	int freq;
+	TreeNode():lson(this),rson(this),hgt(1),freq(1){}
+	TreeNode(T x):lson(NULL),rson(NULL),value(x),hgt(1),freq(1){}
+	TreeNode(T x, TreeNode *l, TreeNode *r):lson(l),rson(r),value(x),hgt(1),freq(1){}
+};
+template<class T>
+int Height(TreeNode<T>* node)
+{
+    if(node==NULL)
+        return 0;
+    else
+        return node->hgt;
+}
+template<class T>
+void SingRotateLeft(TreeNode<T>* &k2)
+{
+    TreeNode<T>* k1;
+    k1=k2->lson;
+    k2->lson=k1->rson;
+    k1->rson=k2;
+    k2->hgt=max(Height(k2->lson),Height(k2->rson))+1;
+    k1->hgt=max(Height(k1->lson),k2->hgt)+1;
+    k2=k1;
+}
+template<class T>
+void SingRotateRight(TreeNode<T>* &k2)
+{
+    TreeNode<T>* k1;
+    k1=k2->rson;
+    k2->rson=k1->lson;
+    k1->lson=k2;
+    k2->hgt=max(Height(k2->lson),Height(k2->rson))+1;
+    k1->hgt=max(Height(k1->lson),k2->hgt)+1;
+    k2=k1;
+}
+template<class T>
+void DoubleRotateLR(TreeNode<T>* &k3)
+{
+    SingRotateRight(k3->lson);
+    SingRotateLeft(k3);
+}
+template<class T>
+void DoubleRotateRL(TreeNode<T>* &k3)
+{
+    SingRotateLeft(k3->rson);
+    SingRotateRight(k3);
+}
+template<class T>
+void Insertpri(TreeNode<T>* &node, T x)
+{
+    if(node==NULL)  //如果结点为空，就在此结点处加入x信息
+    {
+        node=new TreeNode<T>(x);
+        return;
+    }
+    if(node->value>x)  //如果x小于结点的值，继续在结点的左子树中插入x
+    {
+        Insertpri(node->lson, x);
+        if(2==(Height(node->lson)-Height(node->rson)))
+        {
+            if(node->lson->value>x)
+                SingRotateLeft(node);
+            else
+                DoubleRotateLR(node);
+        }
+    }
+    else if(node->value<x)  //如果x小于结点的值，继续在结点的左子树中插入x
+    {
+        Insertpri(node->rson, x);
+        if(2==(Height(node->rson)-Height(node->lson)))
+        {
+            if(node->rson->value<x)
+                SingRotateRight(node);
+            else
+                DoubleRotateRL(node);
+        }
+    }
+    else ++(node->freq);
+    node->hgt=max(Height(node->lson),Height(node->rson))+1;
+}
+//插入接口
+template<class T>
+void CreateAVL(TreeNode<T>* &root, int* a, int n)
+{
+	for(int i=0; i<n; i++)
+    {
+        if(!root)
+            root = new TreeNode<T>(a[i]);
+	    else
+            Insertpri(root, a[i]);
+    }
+}
+template<class T>
+void Deletepri(TreeNode<T>* &node, T x)
+{
+    if(node==NULL)return;  //没有找到值是x的结点
+    if(x<node->value)
+    {
+        Deletepri(node->lson, x);
+        if(2==Height(node->rson)-Height(node->lson))
+        {
+            if(node->rson->lson!=NULL&&(Height(node->rson->lson)>Height(node->rson->rson)))
+                DoubleRotateRL(node);
+            else
+                SingRotateRight(node);
+        }
+    }
+    else if(x>node->value)
+    {
+        Deletepri(node->rson, x);
+        if(2==Height(node->lson)-Height(node->rson))
+        {
+            if(node->lson->rson!=NULL&&(Height(node->lson->rson)>Height(node->lson->lson)))
+                DoubleRotateLR(node);
+            else
+                SingRotateLeft(node);
+        }
+    }
+    else  //如果相等，此结点就是要删除的结点
+    {
+        if(node->lson&&node->rson)  //此结点有两个儿子
+        {
+            TreeNode<T>* temp = node->rson;  //temp指向结点的右儿子
+            while(temp->lson!=NULL)node=node->lson;  //找到右子树中值最小的结点，即找到node的直接后继
+            //把右子树中最小的结点的值赋值给本结点
+            node->value=temp->value;
+            node->freq=temp->freq;
+            Deletepri(node->rson,temp->value);  //删除右子树中最小值的结点，即在node->rson这棵树中找到temp->value
+            if(2==Height(node->lson)-Height(node->rson))
+            {
+                if(node->lson->rson!=NULL&&(Height(node->lson->rson)>Height(node->lson->lson)))
+                    DoubleRotateLR(node);
+                else
+                    SingRotateLeft(node);
+            }
+        }
+        else  //此结点有1个或0个儿子
+        {
+            TreeNode<T>* temp=node;
+            //子结点代替node，通过node形参地址传回调用函数
+            if(node->lson==NULL)  //只有右儿子
+                node=node->rson;
+            else if(node->rson==NULL)  //只有左儿子
+                node=node->rson;
+            delete(temp);
+            temp=NULL;
+        }
+    }
+    if(node==NULL)return;
+    node->hgt=max(Height(node->lson),Height(node->rson))+1;
+}
+template<class T>
+void Delete(TreeNode<T>* &root, T x)
+{
+    Deletepri(root, x);
+}
+template<class T>
+TreeNode<T>* Find(TreeNode<T>* root, T value)
+{
+    if(!root)
+        return NULL;
+    TreeNode<T>* node = root;
+    while(node)
+    {
+        if(value<node->value)
+            node=node->lson;
+        else if(value>node->value)
+            node=node->rson;
+        else
+            return node;
+    }
+    return NULL;    // haven't found
+}
+int main()
+{
+    int size = 6;
+	int a[size];
+    for(int i = 0; i < size; i++)
+        a[i] = i;
+    random_shuffle(a, a+size);
+
+    TreeNode<int> *root = NULL;
+	CreateAVL(root, a, size);
+    for(int i = 0; i < size; i++)
+        cout << a[i] << ' ';
+
+    int deletevalue = 4;
+    Delete(root, deletevalue);
+    deletevalue = 5;
+    Delete(root, deletevalue);
+    
+    return 0;
+}
