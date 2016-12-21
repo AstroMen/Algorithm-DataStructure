@@ -1,4 +1,4 @@
-# DataStructure
+# Graph
 
 UnionFindSet
 * 某国家有N个小岛组成，经过多年的基础设施积累，若干岛屿之间建立了若干桥梁。
