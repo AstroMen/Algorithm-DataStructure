@@ -1,0 +1,60 @@
+#include <iostream>
+#include <string.h>
+#include <vector>
+#include <algorithm>  //reverse
+using namespace std;
+
+void LCS(const char* str1, const char* str2, string& str)
+{
+    int size1 = (int)strlen(str1);
+    int size2 = (int)strlen(str2);
+    const char* s1 = str1-1;  //从1开始数，方便后面的代码编写
+    const char* s2 = str2-1;
+    vector<vector<int> > chess(size1+1, vector<int>(size2+1));
+    int i, j;
+    for(i = 0; i <= size1; i++)  //第0列
+        chess[i][0] = 0;
+    for(j = 0; j <= size2; j++)  //第0行
+        chess[0][j] = 0;
+
+    for(i = 1; i <= size1; i++)
+    {
+        for(j = 1; j <= size2; j++)
+        {
+            if(s1[i] == s2[j])  //i,j相等
+                chess[i][j] = chess[i-1][j-1] + 1;
+            else
+                chess[i][j] = max(chess[i][j-1], chess[i-1][j]);
+        }
+    }
+
+    //求序列本身
+    i = size1;
+    j = size2;
+    while((i != 0) && (j != 0))
+    {
+        if(s1[i] == s2[j])
+        {
+            str.push_back(s1[i]);
+            i--;
+            j--;
+        }
+        else
+        {
+            if(chess[i][j-1] > chess[i-1][j])
+                j--;
+            else
+                i--;
+        }
+    }
+    reverse(str.begin(), str.end());
+}
+int main()
+{
+    const char* str1 = "ABCBDAB";  //TCGGATCGACTT
+    const char* str2 = "BDCABA";  //AGCCTACGTA
+    string str;
+    LCS(str1, str2, str);
+    cout << str.c_str() << endl;
+    return 0;
+}
