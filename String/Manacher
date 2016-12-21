@@ -8,18 +8,16 @@ void Manacher(char* s, int* P, int& from, int& to)
     int id = 0;
     int mx = 1;
     int center = 0;	//最长回文子串的中心
-	  int ml = 1;		//最长回文子串的长度
+    int ml = 1;		//最长回文子串的长度
     for(int i = 1; i < size; i++)
     {
         if(mx > i)
-        {
             P[i] = min(P[2*id-i], mx-i);
-        }
         else
-        {
             P[i] = 1;
-        }
+	    
         for(;s[i+P[i]] == s[i-P[i]]; P[i]++);
+	
         if(mx < i+P[i])
         {
             mx = i + P[i];
@@ -27,29 +25,27 @@ void Manacher(char* s, int* P, int& from, int& to)
         }
         if(ml < P[i])
         {
-          ml = P[i];
-          center = i;
+            ml = P[i];
+            center = i;
         }
     }
     from = center - ml + 1;
-	  to = center + ml - 1;
+    to = center + ml - 1;
 }
 void Print(const char* str, int from, int to)
 {
     for(int i = from; i <= to; i++)
-    {
-      cout << str[i];
-    }
+        cout << str[i];
     cout << '\n';
 }
 int main()
 {
     string s = "aaba";
-	  char* str = const_cast<char*>(s.c_str());
-	  int N = strlen(str);
+    char* str = const_cast<char*>(s.c_str());
+    int N = strlen(str);
     int* P = new int[N];
     int from=0, to=0;
-	  Manacher(str, P, from, to);
-	  Print(str, from, to);  //"aba"
+    Manacher(str, P, from, to);
+    Print(str, from, to);  //"aba"
     return 0;
 }
