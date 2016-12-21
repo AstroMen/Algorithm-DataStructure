@@ -6,4 +6,5 @@ UnionFindSet
 * 求给定图G的连通分量的数目。
 
 ArticulationPoint
+
 ![image](https://github.com/AstroMen/Algorithm-DataStructure/blob/master/Graph/ArticulationPoint.JPG)
