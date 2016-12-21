@@ -13,4 +13,7 @@ ArticulationPoint
 ![image](https://github.com/AstroMen/Algorithm-DataStructure/blob/master/Graph/ArticulationPoint.JPG)
 
 ArticulationEdge
+给定某无向连通图G，若删除某边E，则图G变成非连通图，则边E称为图G的割边。
+问：给定某图的邻接矩阵或邻接表，如何计算该图的所有割边？
+
 
