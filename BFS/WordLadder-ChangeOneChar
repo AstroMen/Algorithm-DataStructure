@@ -7,7 +7,6 @@ using namespace std;
 //搜索cur的孩子结点，存入children中
 void Extend(const string& cur, vector<string>& children, const set<string>& dict, const string& end, set<string>& visit)
 {
-    //找children，没有被遍历过
     string child = cur;
     children.clear();
     char t;
