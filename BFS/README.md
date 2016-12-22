@@ -7,3 +7,6 @@ Word ladder (单词变换问题)
 * end = "cog"
 * dict = ["hot","dot","dog","lot","log"]
 * "hit" -> "hot" -> "dot" -> "dog" -> "cog"
+
+![image](https://github.com/AstroMen/Algorithm-DataStructure/blob/master/BFS/img/WordLadder-ChangeOneChar.jpg)
+
