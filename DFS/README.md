@@ -5,7 +5,7 @@ Push stack and pop stack (入栈出栈问题)
 * 如：入栈序列为“ABCDEFG”、出栈序列为“BAEDFGC”，则可行。
 * 入栈序列“ABCD”、出栈序列“BDAC”，不可行。
 
-//![image](https://github.com/AstroMen/Algorithm-DataStructure/blob/master/DFS/.JPG)
+![image](https://github.com/AstroMen/Algorithm-DataStructure/blob/master/DFS/.JPG)
 
 
 
