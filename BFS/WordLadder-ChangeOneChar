@@ -8,7 +8,7 @@ using namespace std;
 void Extend(const string& cur, vector<string>& children, const set<string>& dict, const string& end, set<string>& visit)
 {
     string child = cur;
-    children.clear();
+    children.clear();    //※※※※※
     char t;
     for(int i=0; i<(int)cur.size(); i++)
     {
@@ -42,17 +42,21 @@ int CalcLadderLength(const string& start, const string& end, const set<string>& 
     int nextNumber = 0;  //下一层孩子结点数目
     while(!q.empty())
     {
+        /****** 1 获取cur层 ******/
         cur = q.front();  //从cur开始扩展
         q.pop();
         curNumber--;
+        /****** 2 获取next层 ******/
         Extend(cur, children, dict, end, visit);
         nextNumber += (int)children.size();
-        if(curNumber == 0)  //当前层遍历完，则遍历下一层，所以step加1
+        /****** 3 当前层遍历完，则遍历下一层 ******/
+        if(curNumber == 0)
         {
             step++;
             curNumber=nextNumber;
             nextNumber=0;
         }
+        /****** 4 将children放入队列 ******/
         for(vector<string>::const_iterator it=children.begin();it!=children.end();it++)
         {
             if(*it==end)  //找到终点
