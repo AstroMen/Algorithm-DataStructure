@@ -1,0 +1,41 @@
+#include <iostream>
+#include <stack>
+using namespace std;
+bool IsPossible(char* strIn, char* strOut)
+{
+    stack<char> s;
+    while(*strOut)
+    {
+        if(!s.empty())  // top of stack has element
+        {
+            if(s.top()==*strOut)  // equal with pop stack
+            {
+                s.pop();
+                strOut++;
+            }
+            else
+            {
+                if(*strIn==0)  // there is no element in push stack, so it is end.
+                    return false;
+                s.push(*strIn);  // push stack
+                strIn++;
+            }
+        }
+        else  // there is no element in stack
+        {
+            if(*strIn==0)
+                return false;
+            s.push(*strIn);
+            strIn++;
+        }
+    }
+    return true;
+}
+int main()
+{
+    char* strIn = "ABCDEFG";
+    char* strOut = "BAEDFGC";
+    bool b = IsPossible(strIn, strOut);
+    cout << b << endl;
+    return 0;
+}
