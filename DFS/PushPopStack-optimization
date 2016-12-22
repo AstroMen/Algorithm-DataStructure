@@ -1,0 +1,31 @@
+#include <iostream>
+#include <stack>
+using namespace std;
+bool IsPossible(char* strIn, char* strOut)
+{
+    stack<char> s;
+    while(*strOut)
+    {
+        if(!s.empty() && (s.top()==*strOut))
+        {
+            s.pop();
+            strOut++;
+        }
+        else
+        {
+            if(*strIn==0)
+                return false;
+            s.push(*strIn);
+            strIn++;
+        }
+    }
+    return true;
+}
+int main()
+{
+    char* strIn = "ABCDEFG";
+    char* strOut = "BAEDFGC";
+    bool b = IsPossible(strIn, strOut);
+    cout << b << endl;
+    return 0;
+}
