@@ -1,10 +1,9 @@
 #include <iostream>
-#include <stack>
-#include <set>
-#include <queue>
 #include <string.h>
+
 using namespace std;
 
+// 已知中序后序求前序遍历
 void InPost2Pre(char* pPreOrder, const char* pInOrder, const char* pPostOrder, int nLength, int& nIndex)
 {
     if(nLength<=0)
