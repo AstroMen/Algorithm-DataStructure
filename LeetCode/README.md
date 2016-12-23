@@ -1,48 +1,48 @@
 # LeetCode
 
-# [LeetCode](https://leetcode.com/problemset/algorithms/) ![Language](https://img.shields.io/badge/language-C++%20%2F%20C++%2011-orange.svg) [![License](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE.md) ![Progress](https://img.shields.io/badge/progress-468%20%2F%20468-ff69b4.svg)
+# [LeetCode](https://leetcode.com/problemset/algorithms/) ![Language](https://img.shields.io/badge/language-C++%2011-orange.svg) [![License](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE.md) ![Progress](https://img.shields.io/badge/progress-468%20%2F%20468-ff69b4.svg)
 
 Up to date (2016-12-18), there are `447` Algorithms / `13` Database / `4` Shell / `4` Draft questions on [LeetCode Online Judge](https://leetcode.com/). 
 The number of questions is increasing recently.
 Here is the classification of all `468` questions.
-For more questions and solutions, you can see my [LintCode](https://github.com/kamyu104/LintCode) repository.
+For more questions and solutions, you can see my [LintCode](https://github.com/AstroMen/LintCode) repository.
 I'll keep updating for full summary and better solutions. Stay tuned for updates.
 (Notes: "📖" means you need to subscribe to [LeetCode premium membership](https://leetcode.com/subscribe/) for the access to premium questions.)
 
 ## Algorithms
 
-* [Bit Manipulation](https://github.com/kamyu104/LeetCode#bit-manipulation)
-* [Array](https://github.com/kamyu104/LeetCode#array)
-* [String](https://github.com/kamyu104/LeetCode#string)
-* [Linked List](https://github.com/kamyu104/LeetCode#linked-list)
-* [Stack](https://github.com/kamyu104/LeetCode#stack)
-* [Queue](https://github.com/kamyu104/LeetCode#queue)
-* [Heap](https://github.com/kamyu104/LeetCode#heap)
-* [Tree](https://github.com/kamyu104/LeetCode#tree)
-* [Hash Table](https://github.com/kamyu104/LeetCode#hash-table)
-* [Data Structure](https://github.com/kamyu104/LeetCode#data-structure)
-* [Math](https://github.com/kamyu104/LeetCode#math)
-* [Two Pointers](https://github.com/kamyu104/LeetCode#two-pointers)
-* [Sort](https://github.com/kamyu104/LeetCode#sort)
-* [Recursion](https://github.com/kamyu104/LeetCode#recursion)
-* [Binary Search](https://github.com/kamyu104/LeetCode#binary-search)
-* [Binary Search Tree](https://github.com/kamyu104/LeetCode#binary-search-tree)
-* [Breadth-First Search](https://github.com/kamyu104/LeetCode#breadth-first-search)
-* [Depth-First Search](https://github.com/kamyu104/LeetCode#depth-first-search)
-* [Backtracking](https://github.com/kamyu104/LeetCode#backtracking)
-* [Dynamic Programming](https://github.com/kamyu104/LeetCode#dynamic-programming)
-* [Greedy](https://github.com/kamyu104/LeetCode#greedy)
-* [Design](https://github.com/kamyu104/LeetCode#design)
+* [Bit Manipulation](https://github.com/AstroMen/LeetCode#bit-manipulation)
+* [Array](https://github.com/AstroMen/LeetCode#array)
+* [String](https://github.com/AstroMen/LeetCode#string)
+* [Linked List](https://github.com/AstroMen/LeetCode#linked-list)
+* [Stack](https://github.com/AstroMen/LeetCode#stack)
+* [Queue](https://github.com/AstroMen/LeetCode#queue)
+* [Heap](https://github.com/AstroMen/LeetCode#heap)
+* [Tree](https://github.com/AstroMen/LeetCode#tree)
+* [Hash Table](https://github.com/AstroMen/LeetCode#hash-table)
+* [Data Structure](https://github.com/AstroMen/LeetCode#data-structure)
+* [Math](https://github.com/AstroMen/LeetCode#math)
+* [Two Pointers](https://github.com/AstroMen/LeetCode#two-pointers)
+* [Sort](https://github.com/AstroMen/LeetCode#sort)
+* [Recursion](https://github.com/AstroMen/LeetCode#recursion)
+* [Binary Search](https://github.com/AstroMen/LeetCode#binary-search)
+* [Binary Search Tree](https://github.com/AstroMen/LeetCode#binary-search-tree)
+* [Breadth-First Search](https://github.com/AstroMen/LeetCode#breadth-first-search)
+* [Depth-First Search](https://github.com/AstroMen/LeetCode#depth-first-search)
+* [Backtracking](https://github.com/AstroMen/LeetCode#backtracking)
+* [Dynamic Programming](https://github.com/AstroMen/LeetCode#dynamic-programming)
+* [Greedy](https://github.com/AstroMen/LeetCode#greedy)
+* [Design](https://github.com/AstroMen/LeetCode#design)
 
 
 ## Database
 
-* [SQL](https://github.com/kamyu104/LeetCode#sql)
+* [SQL](https://github.com/AstroMen/LeetCode#sql)
 
 
 ## Shell
 
-* [Shell Script](https://github.com/kamyu104/LeetCode#shell-script)
+* [Shell Script](https://github.com/AstroMen/LeetCode#shell-script)
 
 ## Bit Manipulation
   #  | Title           |  Solution       |  Time           | Space           | Difficulty    | Tag          | Note
@@ -583,3 +583,5 @@ I'll keep updating for full summary and better solutions. Stay tuned for updates
 193 | [Valid Phone Numbers](https://leetcode.com/problems/valid-phone-numbers/) | [Shell](./Shell/valid-phone-numbers.sh) | _O(n)_ | _O(1)_    | Easy           ||
 194 | [Transpose File](https://leetcode.com/problems/transpose-file/) | [Shell](./Shell/transpose-file.sh) | _O(n^2)_   | _O(n^2)_        | Medium         ||
 195 | [Tenth Line](https://leetcode.com/problems/tenth-line/) | [Shell](./Shell/tenth-line.sh)    | _O(n)_          | _O(1)_          | Easy           ||
+
+From：https://github.com/kamyu104/LeetCode/blob/master/README.md
