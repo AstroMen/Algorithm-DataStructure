@@ -1,0 +1,42 @@
+#include <iostream>
+#include <stack>
+#include <set>
+#include <queue>
+#include <string.h>
+using namespace std;
+
+void InPost2Pre(char* pPreOrder, const char* pInOrder, const char* pPostOrder, int nLength, int& nIndex)
+{
+    if(nLength<=0)
+        return;
+    if(nLength==1)
+    {
+        pPreOrder[nIndex] = *pPostOrder;
+        nIndex++;
+        return;
+    }
+    char root = pPostOrder[nLength-1];
+    pPreOrder[nIndex]=root;
+    nIndex++;
+    int nRoot = 0;
+    for(;nRoot<nLength;nRoot++)
+    {
+        if(pInOrder[nRoot]==root)
+            break;
+    }
+    InPost2Pre(pPreOrder, pInOrder, pPostOrder, nRoot, nIndex);
+    InPost2Pre(pPreOrder, pInOrder+nRoot+1, pPostOrder+nRoot, nLength-nRoot-1, nIndex);
+}
+int main()
+{
+    char pInOrder[] = "ADEFGHMZ";
+    char pPostOrder[] = "AEFDHZMG";
+    int size = sizeof(pInOrder)/sizeof(char);  //包括结束符/0
+    char* pPreOrder = new char[size];
+    int nIndex=0;
+    InPost2Pre(pPreOrder, pInOrder, pPostOrder, size-1, nIndex);
+    pPreOrder[size-1]=0;
+    cout<<pPreOrder<<endl;
+    delete[] pPreOrder;
+    return 0;
+}
