@@ -13,7 +13,7 @@ void Extend(const string& cur, vector<string>& children, const set<string>& dict
     for(int i=0; i<(int)cur.size(); i++)
     {
         t=child[i];  //记录原始字符
-        for(char c='a'; c!='z'; c++)
+        for(char c='a'; c<='z'; c++)
         {
             if(c==t)
                 continue;
