@@ -1,0 +1,28 @@
+#include <iostream>
+
+using namespace std;
+
+//判断给定整数数组，有无可能是一棵BST后序遍历的结果。
+//Solution：将数组分成前后两段，使得前半段都小于根结点，后半段都大于根结点。
+bool CanPostOrder(const int* a, int size)
+{
+    if(size<=1)  //一个元素一定是后序遍历结果
+        return true;
+    int root=a[size-1];
+    int nLeft=0;
+    while(nLeft<size-1 && a[nLeft]<=root)
+        nLeft++;
+    int nRight=size-2;
+    while(nRight<size-1 && a[nRight]>=root)
+        nRight--;
+    if(nRight!=nLeft-1)
+        return false;
+    return CanPostOrder(a,nLeft)&&CanPostOrder(a+nLeft,size-nLeft-1);
+}
+int main()
+{
+    int a[] = {1, 2, 5, 4, 3};
+    bool b = CanPostOrder(a, sizeof(a)/sizeof(int));
+    cout << b << endl;
+    return 0;
+}
