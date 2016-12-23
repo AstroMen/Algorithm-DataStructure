@@ -50,6 +50,7 @@
  *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
  * };
  */
+ //42ms
 class Solution {
 public:
     TreeNode* deleteNode(TreeNode* root, int key) {
