@@ -1,6 +1,6 @@
 # LeetCode
 
-# [LeetCode](https://leetcode.com/problemset/algorithms/) ![Language](https://img.shields.io/badge/language-Python%20%2F%20C++%2011-orange.svg) [![License](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE.md) ![Progress](https://img.shields.io/badge/progress-468%20%2F%20468-ff69b4.svg)
+# [LeetCode](https://leetcode.com/problemset/algorithms/) ![Language](https://img.shields.io/badge/language-C++%20%2F%20C++%2011-orange.svg) [![License](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE.md) ![Progress](https://img.shields.io/badge/progress-468%20%2F%20468-ff69b4.svg)
 
 Up to date (2016-12-18), there are `447` Algorithms / `13` Database / `4` Shell / `4` Draft questions on [LeetCode Online Judge](https://leetcode.com/). 
 The number of questions is increasing recently.
