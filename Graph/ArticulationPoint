@@ -45,6 +45,7 @@ void Print(bool* an, int N)
     for(int i=0;i<N;i++)
         if(an[i])
             cout<<i<<' ';
+    // Print: 0 1 6
 }
 int main()
 {
@@ -64,6 +65,7 @@ int main()
     graph[11][0]=graph[11][9]=graph[11][12]=1;
     graph[12][1]=graph[12][9]=graph[12][11]=1;
     //graph[4][12]=graph[12][4]=1;  //EM
+    
     bool* an = new bool[N];  //是否是割点
     fill(an, an+N, false);  //初始：不是
     ArticulationPoint(graph, an);
