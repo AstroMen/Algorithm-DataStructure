@@ -1,0 +1,43 @@
+#include <iostream>
+#include <stack>
+#include <set>
+#include <queue>
+#include <string.h>
+using namespace std;
+
+void InPre2Post(const char* pPreOrder, const char* pInOrder, char* pPostOrder, int nLength, int& nIndex)
+{
+    if(nLength<=0)
+        return;
+    if(nLength==1)
+    {
+        pPostOrder[nIndex] = *pPreOrder;
+        nIndex++;
+        return;
+    }
+    char root = *pPreOrder;
+    int nRoot = 0;
+    for(;nRoot<nLength;nRoot++)
+    {
+        if(pInOrder[nRoot]==root)
+            break;
+    }
+    InPre2Post(pPreOrder+1, pInOrder, pPostOrder, nRoot, nIndex);
+    InPre2Post(pPreOrder+nRoot+1, pInOrder+nRoot+1, pPostOrder, nLength-nRoot-1, nIndex);
+    pPostOrder[nIndex]=root;
+    nIndex++;
+}
+int main()
+{
+    char pPreOrder[] = "GDAFEMHZ";
+    char pInOrder[] = "ADEFGHMZ";
+    int size = sizeof(pInOrder)/sizeof(char);  //包括结束符/0
+    //int size = strlen(pPreOrder);  //strlen获取的字符串长度不包括结束符/0
+    char* pPostOrder = new char[size];
+    int nIndex=0;
+    InPre2Post(pPreOrder, pInOrder, pPostOrder, size-1, nIndex);
+    pPostOrder[size-1]=0;
+    cout<<pPostOrder<<endl;
+    delete[] pPostOrder;
+    return 0;
+}
