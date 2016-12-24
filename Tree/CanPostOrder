@@ -13,7 +13,7 @@ bool CanPostOrder(const int* a, int size)
     while(nLeft<size-1 && a[nLeft]<=root)
         nLeft++;
     int nRight=size-2;
-    while(nRight<size-1 && a[nRight]>=root)
+    while(nRight>=0 && a[nRight]>=root)
         nRight--;
     if(nRight!=nLeft-1)
         return false;
