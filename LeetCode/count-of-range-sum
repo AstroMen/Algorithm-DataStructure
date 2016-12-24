@@ -1,6 +1,6 @@
 // Source : https://leetcode.com/problems/count-of-range-sum/
 // Time:  O(N*logN)
-// Space: O()
+// Space: O(n)
 
 /********************************************************************************** 
 * 
