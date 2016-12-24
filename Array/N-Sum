@@ -46,7 +46,7 @@ void FindNumber(bool* x, int i, int has, int negative, int positive)
             FindNumber(x, i+1, has+a[i], negative-a[i], positive);
             x[i]=false;
         }
-        if((has+negative) && (has+positive>=sum))
+        if((has+negative<=sum) && (has+positive>=sum))
         {
             x[i]=false;
             FindNumber(x, i+1, has, negative-a[i], positive);
