@@ -86,59 +86,155 @@ public:
 class Solution {
 public:
     int countRangeSum(vector<int>& nums, int lower, int upper) {
+        if (nums.size() == 0) return 0;
 
-		if (nums.size() == 0)
-			return 0;
+        // build cumulative summation array
+        vector<long long> cums(nums.size(), 0);
+        cums[0] = nums[0];
+        for (int i = 1; i < nums.size(); ++i) 
+        cums[i] = cums[i - 1] + nums[i];
 
-		// build cumulative summation array
-		vector<long long> cums(nums.size(), 0);
-		cums[0] = nums[0];
-		for (int i = 1; i < nums.size(); ++i) 
-			cums[i] = cums[i - 1] + nums[i];
+        // run divide and conquer
+        vector<long long> tmp(nums.size());
+        return recursive_count(cums, 0, nums.size() - 1, tmp, lower, upper);
+    }
 
-		// run divide and conquer
-		vector<long long> tmp(nums.size());
-		return recursive_count(cums, 0, nums.size() - 1, tmp, lower, upper);
+    int recursive_count(vector<long long>& cums, int i, int j, vector<long long>& tmp, int lower, int upper) {
+	if (i == j) return cums[i] >= lower && cums[i] <= upper;
+	if (i > j) return 0;
+
+	int mid = (i + j) / 2;
+	int left = recursive_count(cums, i, mid, tmp, lower, upper);
+	int right = recursive_count(cums, mid + 1, j, tmp, lower, upper);
+
+	// compute the cross-boundary case in O(n) 
+	// based on the assumption that both left and right array are sorted
+	int p = i, q = i, k = mid + 1;
+	int cross = 0;
+	for (k = mid + 1; k <= j; ++k) {
+	    while (p <= mid && cums[k] - cums[p] > upper) 
+		++p;
+	    while (q <= mid && cums[k] - cums[q] >= lower) 
+		++q;
+	    cross += q - p;
 	}
 
-	int recursive_count(vector<long long>& cums, int i, int j, vector<long long>& tmp, int lower, int upper) {
-
-		if (i == j) return cums[i] >= lower && cums[i] <= upper;
-		if (i > j) return 0;
-
-		int mid = (i + j) / 2;
-		int left = recursive_count(cums, i, mid, tmp, lower, upper);
-		int right = recursive_count(cums, mid + 1, j, tmp, lower, upper);
-
-		// compute the cross-boundary case in O(n) 
-		// based on the assumption that both left and right array are sorted
-		int p = i, q = i, k = mid + 1;
-		int cross = 0;
-		for (k = mid + 1; k <= j; ++k) {
-			while (p <= mid && cums[k] - cums[p] > upper) 
-				++p;
-			while (q <= mid && cums[k] - cums[q] >= lower) 
-				++q;
-			cross += q - p;
-		}
-
-		// merge sort in O(n)
-		p = i; q = mid + 1; int o = i;
-		while (p <= mid || q <= j) {
-			long long v1 = (p <= mid ? cums[p] : LONG_MAX);
-			long long v2 = (q <= j ? cums[q] : LONG_MAX);
-			if (v1 < v2)
-				tmp[o++] = cums[p++];
-			else
-				tmp[o++] = cums[q++];
-		}
-		copy(tmp.begin() + i, tmp.begin() + j + 1, cums.begin() + i);
-
-		return left + right + cross;
+	// merge sort in O(n)
+	p = i; q = mid + 1; int o = i;
+	while (p <= mid || q <= j) {
+	    long long v1 = (p <= mid ? cums[p] : LONG_MAX);
+	    long long v2 = (q <= j ? cums[q] : LONG_MAX);
+	    if (v1 < v2)
+		tmp[o++] = cums[p++];
+	    else
+		tmp[o++] = cums[q++];
 	}
+	copy(tmp.begin() + i, tmp.begin() + j + 1, cums.begin() + i);
+
+	return left + right + cross;
+    }
 };
 
+//49ms segment tree solution: https://discuss.leetcode.com/topic/43615/segment-tree-solution-c-with-brief-explain
+class Solution {
+public:
+    struct SegmentTree {
+    SegmentTree* left;
+    SegmentTree* right;
+    int count;
+    long min;
+    long max;
+    
+    // nums is sorted
+    SegmentTree(vector<long>& nums, int l, int r):left(NULL),right(NULL) {
+        if (l>r) {
+            return;
+        }
+        min = nums[l];
+        max = nums[r];
+        count=0;
+        
+        if (l==r) {
+            return;
+        }
+        
+        int m = (l+r)/2;
+        if (l<=m) {
+            left = new SegmentTree(nums, l,m);
+        } else {
+            left=NULL;
+        }
+        if (m+1<=r) {
+            right = new SegmentTree(nums, m+1, r);
+        } else {
+            right = NULL;
+        }
+    }
+    
+    void add(long value) {
+        if (value<min || value>max) {
+            return;
+        }
+        if (value==0) {
+            // cout<<"add value"<<endl;
+        }
+        count++;
+        if (left && value<=left->max) {
+            left->add(value);
+        } else if (right && value>=right->min) {
+            right->add(value);
+        }
+    }
+    
+    int getCount(long minValue, long maxValue) {
+        if (minValue<=min && max<=maxValue) {
+            // cout<<minValue<<","<<maxValue<<endl;
+            return count;
+        }
+        
+        if (maxValue<min || minValue>max) {
+            return 0;
+        }
+        
+        int leftCount = left ? left->getCount(minValue, maxValue) : 0;
+        int rightCount = right ? right->getCount(minValue, maxValue) : 0;
+        
+        return leftCount+rightCount;
+    }
+};
+      
+public:
+    int countRangeSum(vector<int>& nums, int lower, int upper) {
+        if (nums.size()==0) {
+            return 0;
+        }
+        
+        unordered_set<long> values;
+        long sum = 0;
+        for(int i=0;i<nums.size();++i) {
+            sum+=nums[i];
+            values.insert(sum);
+        }
 
-//segment tree solution: https://discuss.leetcode.com/topic/43615/segment-tree-solution-c-with-brief-explain
+        vector<long> sums;
+        for(auto& v : values) {
+            sums.push_back(v);
+        }
 
+        sort(sums.begin(), sums.end());
+        
+        SegmentTree* tree = new SegmentTree(sums, 0, sums.size()-1);
+
+        int count = 0;
+        for(int i=nums.size()-1;i>=0;i--) {
+            tree->add(sum);
+            sum-=nums[i];
+            // lower<= sum[i]-sum[j]<=upper
+            count += tree->getCount(lower+sum, upper+sum);
+        }
+        
+        return count;
+        
+    }
+};
 
