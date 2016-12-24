@@ -1,4 +1,4 @@
-# Algorithm-DataStructure
+# Array
 
 N-Sum(子集和数问题)
 * 已知数组A[0…N-1]，给定某数值sum，找出  数组中的若干个数，使得这些数的和为sum。
