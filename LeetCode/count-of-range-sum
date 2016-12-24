@@ -1,0 +1,144 @@
+// Source : https://leetcode.com/problems/count-of-range-sum/
+// Time:  O(N*logN)
+// Space: O()
+
+/********************************************************************************** 
+* 
+*  Given an integer array nums, return the number of range sums that lie in [lower, upper] inclusive.
+* Range sum S(i, j) is defined as the sum of the elements in nums between indices i and j (i ≤ j), inclusive.
+*
+* Note:
+* A naive algorithm of O(n2) is trivial. You MUST do better than that.
+*
+* Example:
+* Given nums = [-2, 5, -1], lower = -2, upper = 2,
+* Return 3.
+* The three ranges are : [0, 0], [2, 2], [0, 2] and their respective sums are: -2, -1, 2. 
+*    
+**********************************************************************************/
+
+//26ms From: https://discuss.leetcode.com/topic/64828/c-29ms-97-divide-and-conquer-solution
+class Solution {
+public:
+    int countRangeSum(vector<int>& A, int lower, int upper) {
+        int n = A.size();
+        vector<long> prefix(n + 1), aux(n + 1);
+        for (int i = 0; i < n; ++i)
+            prefix[i + 1] = prefix[i] + A[i];
+        return countRangeSum(prefix, 0, n + 1, lower, upper, aux);
+}
+private:
+    int countRangeSum(vector<long> &prefix, int beg, int end, int lower, int upper, vector<long> &aux) {
+        if (end - beg <= 1) return 0;
+        auto mid = beg + (end - beg) / 2;
+        auto count = countRangeSum(prefix, beg, mid, lower, upper, aux) 
+                   + countRangeSum(prefix, mid, end, lower, upper, aux);
+        auto p = beg;
+        for (int i = beg, j = mid, k = mid, t = mid; i < mid; ++i) {
+            while (j < end && prefix[j] - prefix[i] <  lower) ++j;
+            while (k < end && prefix[k] - prefix[i] <= upper) ++k;
+            while (t < end && prefix[t] < prefix[i]) aux[p++] = prefix[t++];
+            aux[p++] = prefix[i];
+            count += k - j;
+        }
+        while (beg < p) prefix[beg] = aux[beg++];
+        return count;
+    }
+};
+
+//39ms From: https://discuss.leetcode.com/topic/33993/8-line-multiset-c-solution-100ms-also-binary-search-tree-180ms-mergesort-52ms
+class Solution {
+private:    
+    int mergeSort(vector<long long>&sum, int left, int right, int lower, int upper)
+    {
+        int mid, i, res, j, k;
+        if(left>right) return 0;
+        if(left==right) return ( (sum[left]>=lower) && (sum[left]<=upper) )?1:0;
+        else
+        {
+            vector<long long> temp(right-left+1,0);
+            mid = (left+right)/2;
+            res = mergeSort(sum, left,mid, lower, upper) + mergeSort(sum, mid+1,right, lower, upper); // merge sort two halfs first, be careful about how to divide [left, mid] and [mid+1, right]
+            for(i=left, j=k=mid+1; i<=mid; ++i)
+            { // count the valid ranges [i,j], where i is in the first half and j is in the second half
+                while(j<=right && sum[j]-sum[i]<lower)  ++j;
+                while(k<=right && sum[k]-sum[i]<=upper) ++k;
+                res +=k-j;
+            }
+            for(i=k=left, j=mid+1; k<=right; ++k) //merge the sorted two halfs
+                temp[k-left] = (i<=mid) && (j>right || sum[i]<sum[j])?sum[i++]:sum[j++]; 
+            for(k=left; k<=right; ++k) // copy the sorted results back to sum
+                sum[k] = temp[k-left]; 
+            return res;
+        }
+    }
+public:
+    int countRangeSum(vector<int>& nums, int lower, int upper) {
+         int len = nums.size(), i;
+         vector<long long> sum(len+1, 0);
+         for(i=1; i<=len; ++i) sum[i] = sum[i-1]+nums[i-1];
+         return mergeSort(sum, 1, len, lower, upper);
+    }
+};
+//Explanation: https://discuss.leetcode.com/topic/45994/share-my-c-o-n-logn-merge-sort-code-with-very-detailed-comments-to-help-beginners
+
+//36ms https://discuss.leetcode.com/topic/33727/c-divide-and-conquer-solution-with-brief-comments
+class Solution {
+public:
+    int countRangeSum(vector<int>& nums, int lower, int upper) {
+
+		if (nums.size() == 0)
+			return 0;
+
+		// build cumulative summation array
+		vector<long long> cums(nums.size(), 0);
+		cums[0] = nums[0];
+		for (int i = 1; i < nums.size(); ++i) 
+			cums[i] = cums[i - 1] + nums[i];
+
+		// run divide and conquer
+		vector<long long> tmp(nums.size());
+		return recursive_count(cums, 0, nums.size() - 1, tmp, lower, upper);
+	}
+
+	int recursive_count(vector<long long>& cums, int i, int j, vector<long long>& tmp, int lower, int upper) {
+
+		if (i == j) return cums[i] >= lower && cums[i] <= upper;
+		if (i > j) return 0;
+
+		int mid = (i + j) / 2;
+		int left = recursive_count(cums, i, mid, tmp, lower, upper);
+		int right = recursive_count(cums, mid + 1, j, tmp, lower, upper);
+
+		// compute the cross-boundary case in O(n) 
+		// based on the assumption that both left and right array are sorted
+		int p = i, q = i, k = mid + 1;
+		int cross = 0;
+		for (k = mid + 1; k <= j; ++k) {
+			while (p <= mid && cums[k] - cums[p] > upper) 
+				++p;
+			while (q <= mid && cums[k] - cums[q] >= lower) 
+				++q;
+			cross += q - p;
+		}
+
+		// merge sort in O(n)
+		p = i; q = mid + 1; int o = i;
+		while (p <= mid || q <= j) {
+			long long v1 = (p <= mid ? cums[p] : LONG_MAX);
+			long long v2 = (q <= j ? cums[q] : LONG_MAX);
+			if (v1 < v2)
+				tmp[o++] = cums[p++];
+			else
+				tmp[o++] = cums[q++];
+		}
+		copy(tmp.begin() + i, tmp.begin() + j + 1, cums.begin() + i);
+
+		return left + right + cross;
+	}
+};
+
+
+//segment tree solution: https://discuss.leetcode.com/topic/43615/segment-tree-solution-c-with-brief-explain
+
+
