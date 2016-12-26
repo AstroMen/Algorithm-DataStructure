@@ -38,3 +38,42 @@ public:
     }
 };
 //priority_queue: heap sort
+
+//36ms MinHeap From: https://github.com/AstroMen/Algorithm-DataStructure/edit/master/LeetCode/top-k-frequent-elements
+class Solution {
+public:
+    vector<int> topKFrequent(vector<int>& nums, int k) {
+        unordered_map<int, int> counts;
+        priority_queue<int, vector<int>, greater<int>> max_k;
+        for(auto i : nums) ++counts[i];
+        for(auto & i : counts) {
+            max_k.push(i.second);
+            // Size of the min heap is maintained at equal to or below k
+            while(max_k.size() > k) max_k.pop();
+        }
+        vector<int> res;
+        for(auto & i : counts) {
+            if(i.second >= max_k.top()) res.push_back(i.first);
+        }
+        return res;
+    }
+};
+
+//36ms MaxHeap From: https://discuss.leetcode.com/topic/54560/five-efficient-solutions-in-c-well-explained
+class Solution {
+public:
+    vector<int> topKFrequent(vector<int>& nums, int k) 
+    {
+        vector<int> v;
+        unordered_map<int, int> count_map;
+        for(auto n: nums) count_map[n]++;
+        priority_queue<pair<int, int>> maxHeap;
+        for(auto& pair: count_map) maxHeap.emplace(pair.second, pair.first);
+        while(k--)
+        {
+            v.push_back(maxHeap.top().second);
+            maxHeap.pop();
+        }
+        return v;
+    }
+};
