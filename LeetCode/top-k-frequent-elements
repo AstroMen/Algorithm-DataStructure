@@ -15,7 +15,7 @@
 *
 **********************************************************************************/
 
-//36ms
+//36ms From: https://discuss.leetcode.com/topic/44226/c-o-n-log-n-k-unordered_map-and-priority_queue-maxheap-solution
 class Solution {
 public:
     vector<int> topKFrequent(vector<int>& nums, int k) {
