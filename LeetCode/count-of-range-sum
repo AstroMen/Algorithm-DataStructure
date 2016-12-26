@@ -17,6 +17,68 @@
 *    
 **********************************************************************************/
 
+//36ms https://discuss.leetcode.com/topic/33727/c-divide-and-conquer-solution-with-brief-comments
+class Solution {
+public:
+    int countRangeSum(vector<int>& nums, int lower, int upper) {
+        if (nums.size() == 0) return 0;
+
+        // build cumulative summation array
+        vector<long long> sum(nums.size(), 0);
+        sum[0] = nums[0];
+        for (int i = 1; i < nums.size(); ++i)
+            sum[i] = sum[i - 1] + nums[i];
+
+        // run divide and conquer
+        vector<long long> tmp(nums.size());
+        return recursive_count(sum, 0, nums.size() - 1, tmp, lower, upper);
+    }
+    int recursive_count(vector<long long>& sum, int begin, int end, vector<long long>& tmp, int lower, int upper) {
+	if (begin > end) return 0;
+	if (begin == end) return sum[begin] >= lower && sum[begin] <= upper;
+
+	int mid = (begin + end) / 2;
+	int left = recursive_count(sum, begin, mid, tmp, lower, upper);
+	int right = recursive_count(sum, mid + 1, end, tmp, lower, upper);
+
+	// compute the count-boundary case in O(n)
+	// based on the assumption that both left and right array are sorted
+	int p = begin, q = begin, k = mid + 1;
+	int count = 0;
+	for (k = mid + 1; k <= end; ++k) {
+	    while (p <= mid && sum[k] - sum[p] > upper) ++p;
+	    while (q <= mid && sum[k] - sum[q] >= lower) ++q;
+	    count += q - p;
+	}
+	/* accepted as below:
+	p=mid+1; q=mid+1;
+	for (int k = begin; k <= mid; ++k) {
+	    while (p <= end && sum[p] - sum[k] < lower ) ++p;
+	    while (q <= end && sum[q] - sum[k] <= upper) ++q;
+	    count += q - p;
+	}
+	*/
+
+	// merge sort in O(n)
+	p = begin; q = mid + 1; int o = begin;
+	while (p <= mid || q <= end) {
+	    long long v1 = (p <= mid ? sum[p] : LONG_MAX);
+	    long long v2 = (q <= end ? sum[q] : LONG_MAX);
+	    if (v1 < v2)
+                tmp[o++] = sum[p++];
+	    else
+                tmp[o++] = sum[q++];
+	}
+	copy(tmp.begin() + begin, tmp.begin() + end + 1, sum.begin() + begin);
+
+	return left + right + count;
+    }
+};
+//If the parameter "tmp" be generated in the method then recursive calls will copy the vector 
+//using the copy constructor of std::vector<double>. This means that a lot of allocations are made.
+//The solution for this problem is to have the parameter as vector<double>& instead of vector<double>.
+//This will avoid creating a new instance of the sum vector at each recursive call.
+
 //26ms From: https://discuss.leetcode.com/topic/64828/c-29ms-97-divide-and-conquer-solution
 class Solution {
 public:
@@ -54,23 +116,20 @@ private:
         int mid, i, res, j, k;
         if(left>right) return 0;
         if(left==right) return ( (sum[left]>=lower) && (sum[left]<=upper) )?1:0;
-        else
-        {
-            vector<long long> temp(right-left+1,0);
-            mid = (left+right)/2;
-            res = mergeSort(sum, left,mid, lower, upper) + mergeSort(sum, mid+1,right, lower, upper); // merge sort two halfs first, be careful about how to divide [left, mid] and [mid+1, right]
-            for(i=left, j=k=mid+1; i<=mid; ++i)
-            { // count the valid ranges [i,j], where i is in the first half and j is in the second half
-                while(j<=right && sum[j]-sum[i]<lower)  ++j;
-                while(k<=right && sum[k]-sum[i]<=upper) ++k;
-                res +=k-j;
-            }
-            for(i=k=left, j=mid+1; k<=right; ++k) //merge the sorted two halfs
-                temp[k-left] = (i<=mid) && (j>right || sum[i]<sum[j])?sum[i++]:sum[j++]; 
-            for(k=left; k<=right; ++k) // copy the sorted results back to sum
-                sum[k] = temp[k-left]; 
-            return res;
+        vector<long long> temp(right-left+1,0);
+        mid = (left+right)/2;
+        res = mergeSort(sum, left,mid, lower, upper) + mergeSort(sum, mid+1,right, lower, upper); // merge sort two halfs first, be careful about how to divide [left, mid] and [mid+1, right]
+        for(i=left, j=k=mid+1; i<=mid; ++i)
+        { // count the valid ranges [i,j], where i is in the first half and j is in the second half
+            while(j<=right && sum[j]-sum[i]<lower)  ++j;
+            while(k<=right && sum[k]-sum[i]<=upper) ++k;
+            res +=k-j;
         }
+        for(i=k=left, j=mid+1; k<=right; ++k) //merge the sorted two halfs
+            temp[k-left] = (i<=mid) && (j>right || sum[i]<sum[j])?sum[i++]:sum[j++]; 
+        for(k=left; k<=right; ++k) // copy the sorted results back to sum
+            sum[k] = temp[k-left]; 
+        return res;
     }
 public:
     int countRangeSum(vector<int>& nums, int lower, int upper) {
@@ -81,59 +140,6 @@ public:
     }
 };
 //Explanation: https://discuss.leetcode.com/topic/45994/share-my-c-o-n-logn-merge-sort-code-with-very-detailed-comments-to-help-beginners
-
-//36ms https://discuss.leetcode.com/topic/33727/c-divide-and-conquer-solution-with-brief-comments
-class Solution {
-public:
-    int countRangeSum(vector<int>& nums, int lower, int upper) {
-        if (nums.size() == 0) return 0;
-
-        // build cumulative summation array
-        vector<long long> cums(nums.size(), 0);
-        cums[0] = nums[0];
-        for (int i = 1; i < nums.size(); ++i) 
-        cums[i] = cums[i - 1] + nums[i];
-
-        // run divide and conquer
-        vector<long long> tmp(nums.size());
-        return recursive_count(cums, 0, nums.size() - 1, tmp, lower, upper);
-    }
-
-    int recursive_count(vector<long long>& cums, int i, int j, vector<long long>& tmp, int lower, int upper) {
-	if (i == j) return cums[i] >= lower && cums[i] <= upper;
-	if (i > j) return 0;
-
-	int mid = (i + j) / 2;
-	int left = recursive_count(cums, i, mid, tmp, lower, upper);
-	int right = recursive_count(cums, mid + 1, j, tmp, lower, upper);
-
-	// compute the cross-boundary case in O(n) 
-	// based on the assumption that both left and right array are sorted
-	int p = i, q = i, k = mid + 1;
-	int cross = 0;
-	for (k = mid + 1; k <= j; ++k) {
-	    while (p <= mid && cums[k] - cums[p] > upper) 
-		++p;
-	    while (q <= mid && cums[k] - cums[q] >= lower) 
-		++q;
-	    cross += q - p;
-	}
-
-	// merge sort in O(n)
-	p = i; q = mid + 1; int o = i;
-	while (p <= mid || q <= j) {
-	    long long v1 = (p <= mid ? cums[p] : LONG_MAX);
-	    long long v2 = (q <= j ? cums[q] : LONG_MAX);
-	    if (v1 < v2)
-		tmp[o++] = cums[p++];
-	    else
-		tmp[o++] = cums[q++];
-	}
-	copy(tmp.begin() + i, tmp.begin() + j + 1, cums.begin() + i);
-
-	return left + right + cross;
-    }
-};
 
 //49ms segment tree solution: https://discuss.leetcode.com/topic/43615/segment-tree-solution-c-with-brief-explain
 class Solution {
