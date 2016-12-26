@@ -211,9 +211,7 @@ public:
       
 public:
     int countRangeSum(vector<int>& nums, int lower, int upper) {
-        if (nums.size()==0) {
-            return 0;
-        }
+        if (nums.size()==0) return 0;
         
         unordered_set<long> values;
         long sum = 0;
@@ -226,7 +224,6 @@ public:
         for(auto& v : values) {
             sums.push_back(v);
         }
-
         sort(sums.begin(), sums.end());
         
         SegmentTree* tree = new SegmentTree(sums, 0, sums.size()-1);
@@ -238,9 +235,7 @@ public:
             // lower<= sum[i]-sum[j]<=upper
             count += tree->getCount(lower+sum, upper+sum);
         }
-        
         return count;
-        
     }
 };
 
