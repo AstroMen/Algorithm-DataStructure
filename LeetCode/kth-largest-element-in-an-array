@@ -1,0 +1,39 @@
+// Source : https://leetcode.com/problems/kth-largest-element-in-an-array/
+// Time:  O(nlgk)
+// Space: O(n)
+
+/********************************************************************************** 
+* 
+* Find the kth largest element in an unsorted array. Note that it is the kth largest element in the sorted order, not the kth distinct element.
+*
+* For example,
+* Given [3,2,1,5,6,4] and k = 2, return 5.
+*
+* Note:
+* You may assume k is always valid, 1 ≤ k ≤ array's length.
+*    
+**********************************************************************************/
+
+//16ms From: https://discuss.leetcode.com/topic/14567/c-solutions-o-nlgk-by-min-heap-and-o-n-by-partition
+class Solution {
+public:
+    int findKthLargest(vector<int>& nums, int k) {
+        size_t len = nums.size();
+        if(len < k) return 0;
+
+        priority_queue<int, std::vector<int>, std::greater<int>> q;
+        for(auto &v : nums)
+        {
+            if(q.size() < k)
+            {
+              q.push(v);
+            }
+            else if (v > q.top())  //top is the biggest value
+            {
+                q.pop();
+                q.push(v);
+            }
+        }
+        return q.top();
+    }
+};
