@@ -1,0 +1,123 @@
+// Source : https://leetcode.com/problems/path-sum-ii/
+// Time:  O()
+// Space: O()
+
+/********************************************************************************** 
+* 
+* Given a binary tree and a sum, find all root-to-leaf paths where each path's sum equals the given sum.
+* For example:
+* Given the below binary tree and sum = 22,
+* 
+*               5
+*              / \
+*             4   8
+*            /   / \
+*           11  13  4
+*          /  \    / \
+*         7    2  5   1
+* 
+* return
+* [
+*    [5,4,11,2],
+*    [5,8,4,5]
+* ]
+*    
+**********************************************************************************/
+
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+ //13ms my solution
+class Solution {
+public:
+    vector<vector<int>> pathSum(TreeNode* root, int sum) {
+        vector<vector<int>> result;
+        if(root==NULL)return result;
+        vector<int> path;
+        path.push_back(root->val);
+        dfs(root,root->val,sum,path,result);
+        return result;
+    }
+    void dfs(TreeNode* root, int subsum, int sum, vector<int>& path, vector<vector<int>>& result)
+    {
+        if(root==NULL)return;
+        if(!root->left&&!root->right&&(subsum==sum))
+            result.push_back(path);
+        if(root->left)
+        {
+            path.push_back(root->left->val);
+            dfs(root->left, subsum+root->left->val, sum, path, result);
+        }
+        if(root->right)
+        {
+            path.push_back(root->right->val);
+            dfs(root->right, subsum+root->right->val, sum, path, result);
+        }
+        path.pop_back();  
+    }
+};
+
+//16ms From: https://discuss.leetcode.com/topic/11601/c-17-ms-recursion
+class Solution {
+public:
+    vector<vector<int> > pathSum(TreeNode *root, int sum) {
+        vector<vector<int> > result;
+        vector<int> path_num;
+        helper(root, sum, path_num, result);
+        return result;
+    }
+    void helper(TreeNode *root, int sum, vector<int> &path_num, vector<vector<int> > &result) {
+        if(root == NULL)
+            return;
+        path_num.push_back(root->val);
+        if(root->left == NULL && root->right == NULL && sum == root->val) {
+            result.push_back(path_num);
+            path_num.pop_back();
+            return;
+        }
+        helper(root->left, sum - root->val, path_num, result);
+        helper(root->right, sum - root->val, path_num, result);
+        path_num.pop_back();
+    }
+};
+
+//26ms From: https://discuss.leetcode.com/topic/39728/c-dfs-17ms-non-recursive-solution
+class Solution {
+public:
+    vector<vector<int>> pathSum(TreeNode* root, int sum) {
+        vector<vector<int> > result;
+        vector<TreeNode*> st;
+        TreeNode *pre = NULL, *cur = root;
+        int value = 0;
+        while (cur || !st.empty()) {
+            while (cur) {
+                st.push_back(cur);
+                value += cur->val;
+                cur = cur->left;
+            }
+            cur = st.back();
+            if (!cur->left && !cur->right && value == sum) {
+                vector<int> t;
+                for (auto i : st) {
+                    t.push_back(i->val);
+                }
+                result.push_back(t);
+            }
+            if (cur->right && cur->right != pre) {
+                cur = cur->right;
+            } else {
+                pre = cur;
+                value -= cur->val;
+                st.pop_back();
+                cur = NULL;
+            }
+        }
+        return result;
+    }
+};
