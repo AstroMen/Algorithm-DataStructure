@@ -1,0 +1,36 @@
+// Source : https://leetcode.com/problems/string-to-integer-atoi/
+// Time:  O(n)
+// Space: O(1)
+
+/********************************************************************************** 
+* 
+* Implement atoi to convert a string to an integer.
+* 
+* Hint: Carefully consider all possible input cases.
+* If you want a challenge, please do not see below and ask yourself what are the possible input cases.
+*    
+**********************************************************************************/
+
+//9ms  From: https://discuss.leetcode.com/topic/15891/8ms-c-solution-easy-to-understand
+class Solution {
+public:
+    int myAtoi(string str) {
+        long result = 0;
+        int indicator = 1,flag=0;
+        int  i = str.find_first_not_of(' ');
+        if(str[i] == '-' || str[i] == '+')
+        {
+            indicator = (str[i++] == '-')? -1 : 1;
+            flag++;
+        }
+        if(flag>1) return 0;
+        while('0'<= str[i] && str[i] <= '9')
+        {
+             result = result*10 + (str[i++]-'0');
+            if(result*indicator >= INT_MAX) return INT_MAX;
+            if(result*indicator <= INT_MIN) return INT_MIN;
+         }
+        return result*indicator;
+    }
+};
+
