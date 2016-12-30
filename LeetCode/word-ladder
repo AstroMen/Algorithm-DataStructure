@@ -21,6 +21,7 @@
 **********************************************************************************/
 
 //49ms From: https://discuss.leetcode.com/topic/53092/52-ms-c-solution-with-18-lines-only
+//two-end BFS + hash table
 class Solution {
 public:
     int ladderLength(string beginWord, string endWord, unordered_set<string>& wordList) {
@@ -44,7 +45,7 @@ public:
             ++dist;
             head.swap(next);
             next.clear();
-            if (head.size()>tail.size()) head.swap(tail);
+            if (head.size()>tail.size()) head.swap(tail);  //two-end BFS
         }
         return 0;
     }
