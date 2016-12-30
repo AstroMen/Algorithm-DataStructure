@@ -1,0 +1,62 @@
+// Source : https://leetcode.com/problems/maximum-depth-of-binary-tree/
+// Time:  O(n)
+// Space: O(1)
+
+/********************************************************************************** 
+* 
+* Given a binary tree, find its maximum depth.
+* The maximum depth is the number of nodes along the longest path from the root node down to the farthest leaf node.
+*    
+**********************************************************************************/
+
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+
+//DFS
+//6ms From: https://discuss.leetcode.com/topic/36321/my-c-solution/2
+class Solution {
+public:
+    int maxDepth(TreeNode* root) {
+        if(root == NULL) return 0;
+        return 1 + std::max(maxDepth(root->left), maxDepth(root->right));
+    }
+};
+
+//13ms From: https://discuss.leetcode.com/topic/10317/my-code-of-c-depth-first-search-and-breadth-first-search
+class Solution {
+public:
+    int maxDepth(TreeNode* root) {
+        return root == NULL ? 0 : max(maxDepth(root -> left), maxDepth(root -> right)) + 1;
+    }
+};
+//when root->left ==null && root ->right ==null ,you should return 1 ,instead of max. And this occurs many times. do something eliminated in advance can make the cpp run fast.
+
+//BFS
+//9ms From: https://discuss.leetcode.com/topic/21411/8ms-recursive-bfs-c-solutions/2
+class Solution {
+public:
+    int maxDepth(TreeNode* root) {
+        int depth = 0;
+        if (!root) return depth;
+        queue<TreeNode*> level;
+        level.push(root);
+        while (!level.empty()) {
+            depth++;
+            int n = level.size();
+            for (int i = 0; i < n; i++) {
+                TreeNode* node = level.front();
+                level.pop();
+                if (node -> left) level.push(node -> left);
+                if (node -> right) level.push(node -> right);
+            }
+        }
+        return depth; 
+    } 
+};
