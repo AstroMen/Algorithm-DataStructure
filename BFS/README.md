@@ -8,7 +8,7 @@
 　dict = ["hot","dot","dog","lot","log"]  
 　"hit" -> "hot" -> "dot" -> "dog" -> "cog"  
    
-![image](https://github.com/AstroMen/Algorithm-DataStructure/blob/master/BFS/img/WordLadder-ChangeOneChar.jpg)  
+　　![image](https://github.com/AstroMen/Algorithm-DataStructure/blob/master/BFS/img/WordLadder-ChangeOneChar.jpg)  
   
 ##Surrounded Regions (周围区域)  
 Given a 2D board containing 'X' and 'O' (the letter O), capture all regions surrounded by 'X'.  
