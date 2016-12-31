@@ -58,6 +58,7 @@ public:
 };
 
 //9ms From: https://discuss.leetcode.com/topic/5397/my-short-c-solution
+//memory leak
 class Solution
 {
 public:
