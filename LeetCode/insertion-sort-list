@@ -1,0 +1,76 @@
+// Source : https://leetcode.com/problems/insertion-sort-list/
+// Time:  O()
+// Space: O()
+
+/********************************************************************************** 
+* 
+* Sort a linked list using insertion sort.
+*    
+**********************************************************************************/
+
+//https://discuss.leetcode.com/topic/10944/thoughts-from-a-google-interviewer/2
+//One of the quotes is
+//    For God's sake, don't try sorting a linked list during the interview
+//http://steve-yegge.blogspot.nl/2008/03/get-that-job-at-google.html
+
+
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+//32ms From: https://discuss.leetcode.com/topic/8570/an-easy-and-clear-way-to-sort-o-1-space/6
+class Solution {
+public:
+    ListNode* insertionSortList(ListNode* head) {
+        ListNode *h=new ListNode(0);
+        ListNode *cur=head;
+        ListNode *prev=h;
+        ListNode *next=NULL;
+        while(cur){
+            next=cur->next;
+            if(!prev||!prev->next||prev->next->val>=cur->val)prev=h;//I add this line
+            while(prev->next&&prev->next->val<cur->val){
+                prev=prev->next;
+            }
+            cur->next=prev->next;
+            prev->next=cur;
+            //pre = helper; I erase this line;
+            cur=next;
+        }
+        return h->next;
+    }
+};
+
+//26ms From: https://discuss.leetcode.com/topic/14916/explained-c-solution-24ms/2
+class Solution {
+public:
+    ListNode* insertionSortList(ListNode* head) {
+        ListNode* new_head = new ListNode(0);
+        new_head -> next = head;
+        ListNode* pre = new_head;
+        ListNode* cur = head;
+        while (cur) {
+            if (cur -> next && cur -> next -> val < cur -> val) {
+                while (pre -> next && pre -> next -> val < cur -> next -> val)
+                    pre = pre -> next;
+                /* Insert cur -> next after pre.*/
+                ListNode* temp = pre -> next;
+                pre -> next = cur -> next;
+                cur -> next = cur -> next -> next;
+                pre -> next -> next = temp;
+                /* Move pre back to new_head. */
+                pre = new_head;
+            }
+            else cur = cur -> next;
+        }
+        ListNode* res = new_head -> next;
+        delete new_head;
+        return res;
+    }
+};
+
+
