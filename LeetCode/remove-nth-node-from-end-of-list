@@ -57,22 +57,22 @@ public:
     }
 };
 
-//9ms From: https://discuss.leetcode.com/topic/5397/my-short-c-solution
-//memory leak
+//3ms From: https://discuss.leetcode.com/topic/13767/an-o-n-time-o-1-space-solution-without-dummy-head-inspired-by-linus-torvalds
 class Solution
 {
 public:
     ListNode* removeNthFromEnd(ListNode* head, int n)
     {
-        ListNode** t1 = &head, *t2 = head;
-        for(int i = 1; i < n; ++i)
-            t2 = t2->next;
-        while(t2->next != NULL)
-        {
-            t1 = &((*t1)->next);
-            t2 = t2->next;
+        ListNode *fast = head;
+        for (int i = 0; i < n; i++) fast = fast->next;
+        ListNode **prev = &head;
+        while (fast) {
+            prev = &(*prev)->next;
+            fast = fast->next;
         }
-        *t1 = (*t1)->next;
+        ListNode *current = *prev;
+        *prev = current->next;
+        delete current;
         return head;
     }
 };
