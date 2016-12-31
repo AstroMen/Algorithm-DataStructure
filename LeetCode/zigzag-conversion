@@ -1,0 +1,91 @@
+// Source : https://leetcode.com/problems/zigzag-conversion/
+// Time:  O()
+// Space: O()
+
+/********************************************************************************** 
+* 
+* Given an array of integers, return indices of the two numbers such that they add up to a specific target.
+* 
+* You may assume that each input would have exactly one solution.
+* 
+* Example:
+* Given nums = [2, 7, 11, 15], target = 9,
+* Because nums[0] + nums[1] = 2 + 7 = 9,
+* return [0, 1].
+*    
+**********************************************************************************/
+
+//Explanation: https://discuss.leetcode.com/topic/22925/if-you-are-confused-with-zigzag-pattern-come-and-see/3
+//https://segmentfault.com/a/1190000005751185
+/*n=numRows
+Δ=2n-2    1                           2n-1                         4n-3
+Δ=        2                     2n-2  2n                    4n-4   4n-2
+Δ=        3               2n-3        2n+1              4n-5       .
+Δ=        .           .               .               .            .
+Δ=        .       n+2                 .           3n               .
+Δ=        n-1 n+1                     3n-3    3n-1                 5n-5
+Δ=2n-2    n                           3n-2                         5n-4
+*/
+
+//15ms My solution
+class Solution {
+public:
+    string convert(string s, int numRows) {
+        if(numRows<2) return s;
+        string result=s;
+        int index, flag;
+        int j=0;
+        for(int i=0;i<numRows;i++)
+        {
+            index=i;
+            flag=1;
+            while(index<(s.length()))
+            {
+                result[j++]=s[index];
+                if(i==0||i==numRows-1)
+                    index+=2 * numRows - 2;  //(numRows-2)*2+2
+                else
+                {
+                    if(flag)
+                    {
+                        index+=2 * numRows - 2 * i - 2;  //(numRows-i-2)*2+2
+                        flag=0;
+                    }
+                    else
+                    {
+                        index+=2 * i;  //(i-1)*2+2
+                        flag=1;
+                    }
+                }
+            }
+        }
+        return result;
+    }
+};
+
+//15ms From: https://discuss.leetcode.com/topic/15889/12ms-c-solution-easy-to-understand
+class Solution {
+public:
+    string convert(string s, int numRows) {
+        std::string ans(s.size(),'0');
+        char* p = &ans[0];
+        int part_len = 2*numRows - 2;
+        if(numRows == 1 || s.size() == 0) return s;
+        for(int i=0; i<numRows; ++i)
+        {
+            if(i == 0 || i == numRows -1)
+                for(int j=i; j<s.size(); j+= part_len) *(p++) = s[j];
+            else
+            {
+                int offset = 2 * i;
+                for(int j=i; j<s.size(); offset=part_len-offset,j+= offset) *(p++) = s[j];
+            }
+        }
+        return ans;
+    }
+};
+/*
+j=i;
+offset=(2n-2) - 2i, j=j+offset;
+offset=(2n-2) - (2n-2i-2) = 2i, j=j+offset;
+*/
