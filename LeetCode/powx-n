@@ -1,0 +1,31 @@
+// Source : https://leetcode.com/problems/powx-n/
+// Time:  O(log N)
+// Space: O(1)
+
+/********************************************************************************** 
+* 
+* Implement pow(x, n).
+*
+* Subscribe to see which companies asked this question
+*    
+**********************************************************************************/
+
+//3ms From: https://discuss.leetcode.com/topic/5425/short-and-easy-to-understand-solution
+class Solution {
+public:
+    double myPow(double x, int n) {
+        if(n == 0)
+            return 1;
+        if(n < 0){
+            if( n == INT_MIN) {
+                n++; // Make -2147483648 to -2147483647
+                if(x < 0) {
+                    x = -x; //we made n odd so need to update sign
+                }
+            }
+            n = -n;
+            x = 1/x;
+        }
+        return (n % 2 == 0) ? myPow(x*x, n/2) : x*myPow(x*x, n/2);
+    }
+};
