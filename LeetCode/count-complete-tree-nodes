@@ -1,6 +1,6 @@
 // Source : https://leetcode.com/problems/count-complete-tree-nodes/
-// Time:  O()
-// Space: O()
+// Time:  O(h * logn) = O((logn)^2)
+// Space: O(1)
 
 /********************************************************************************** 
 * 
