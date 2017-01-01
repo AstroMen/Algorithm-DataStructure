@@ -1,6 +1,6 @@
 // Source : https://leetcode.com/problems/guess-number-higher-or-lower/
-// Time:  O()
-// Space: O()
+// Time:  O(log N)
+// Space: O(1)
 
 /********************************************************************************** 
 * 
