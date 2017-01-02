@@ -1,0 +1,41 @@
+// Source : https://leetcode.com/problems/reverse-words-in-a-string/
+// Time:  O(n)
+// Space: O(1)
+
+/********************************************************************************** 
+* 
+*  Given an input string, reverse the string word by word.
+* 
+* For example,
+* Given s = "the sky is blue",
+* return "blue is sky the".
+*
+* Update (2015-02-12):
+* For C programmers: Try to solve it in-place in O(1) space. 
+*    
+**********************************************************************************/
+
+class Solution {
+public:
+    void reverseWords(string &s) {
+        reverseString(s, 0, s.size()-1);
+        int low =0;
+        int high=0;
+        while(high<s.size())
+        {
+            if(s[high]==' ')
+            {
+                reverseString(s, low, high-1);
+                low=high+1;
+            }
+            high++;
+        }
+        if(low==high&&high==s.size())
+            s="";
+    }
+    void reverseString(string& s, int low, int high) {
+        if(high-low<2)return;
+        while(low<high)
+            swap(s[low++],s[high--]);
+    }
+};
