@@ -39,7 +39,7 @@ void compute(int stairs)
         ++sum;
         return;
     }
-    for(int i=1;i<=4;++i)
+    for(int i=1;i<=3;++i)  //If each time you can either climb 1 or 2 or 3 steps
     {
         step[len] = i;
         ++len;
