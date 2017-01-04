@@ -30,6 +30,7 @@ public:
 };
 
 //DFS
+//3ms
 class Solution {
 public:
     bool isSameTree(TreeNode* p, TreeNode* q) {
