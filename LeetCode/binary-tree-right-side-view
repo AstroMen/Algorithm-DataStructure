@@ -1,0 +1,107 @@
+// Source : https://leetcode.com/problems/
+// Time:  O()
+// Space: O()
+
+/********************************************************************************** 
+* 
+* Given a binary tree, imagine yourself standing on the right side of it, 
+* return the values of the nodes you can see ordered from top to bottom.
+* 
+* For example:
+* Given the following binary tree,
+* 
+*    1            <---
+*  /   \
+* 2     3         <---
+*  \     \
+*   5     4       <---
+* 
+* You should return [1, 3, 4]. 
+*    
+**********************************************************************************/
+
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+//3ms BFS My solution
+class Solution {
+public:
+    vector<int> rightSideView(TreeNode* root) {
+        vector<int> res;
+        if(root==nullptr) return res;
+        queue<TreeNode*> q;
+        q.push(root);
+        q.push(NULL);
+        int val=0;
+        while(!q.empty())
+        {
+            TreeNode* temp=q.front();
+            q.pop();
+            
+            if(temp==NULL)
+            {
+                if(val!=0)
+                {
+                    res.push_back(val);
+                    val=0;
+                    q.push(NULL);
+                }
+                else
+                    delete temp;
+            }
+            else
+            {
+                if(temp->left) q.push(temp->left);
+                if(temp->right) q.push(temp->right);
+                val=temp->val;
+            }
+        }
+        return res;
+    }
+};
+
+//unread
+//6ms DFS From: https://discuss.leetcode.com/topic/11310/my-c-solution-modified-preorder-traversal
+class Solution {
+public:
+    void recursion(TreeNode *root, int level, vector<int> &res)
+    {
+        if(root==NULL) return ;
+        if(res.size()<level) res.push_back(root->val);
+        recursion(root->right, level+1, res);
+        recursion(root->left, level+1, res);
+    }
+    
+    vector<int> rightSideView(TreeNode *root) {
+        vector<int> res;
+        recursion(root, 1, res);
+        return res;
+    }
+};
+
+//9ms BFS From: https://discuss.leetcode.com/topic/11303/9ms-c-bfs-o-n-time-concise-with-explanation
+class Solution {
+public:
+    vector<int> rightSideView(TreeNode* root) {
+        queue<TreeNode*>mQ;
+        vector<int> ret;
+        if(!root)return ret;
+        mQ.push(root);
+        while(!mQ.empty()){
+            ret.push_back(mQ.back()->val);
+            for(int i=mQ.size();i>0;i--){
+                TreeNode *tn=mQ.front();
+                mQ.pop();
+                if(tn->left)mQ.push(tn->left);
+                if(tn->right)mQ.push(tn->right);
+            }
+        }
+        return ret;
+    }
+};
