@@ -1,0 +1,49 @@
+// Source : https://leetcode.com/problems/missing-number/
+// Time:  O()
+// Space: O()
+
+/********************************************************************************** 
+* 
+* Given an array containing n distinct numbers taken from 0, 1, 2, ..., n, find the one that is missing from the array.
+* 
+* For example,
+* Given nums = [0, 1, 3] return 2. 
+*    
+**********************************************************************************/
+
+//29ms From: https://discuss.leetcode.com/topic/22313/c-solution-using-bit-manipulation
+class Solution {
+public:
+    int missingNumber(vector<int>& nums) {
+        int result = nums.size();
+        int i=0;
+        for(int num:nums){
+            result ^= num;
+            result ^= i;
+            i++;
+        }
+        return result;
+    }
+};
+
+//36ms
+class Solution {
+public:
+    int missingNumber(vector<int>& nums) {
+        int i = 0;
+        int size = nums.size()-1;
+        while(i<=size)
+        {
+            if(nums[i] == i)
+                i++;
+            else if((nums[i] < i) || (nums[i] > size) || (nums[i] == nums[nums[i]]))  //找过了，超出了，重复了
+            {
+                nums[i] = nums[size];
+                size--;
+            }
+            else
+                swap(nums[nums[i]], nums[i]);
+        }
+        return i;
+    }
+};
