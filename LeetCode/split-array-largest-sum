@@ -1,10 +1,12 @@
 // Source : https://leetcode.com/problems/split-array-largest-sum/
-// Time:  O()
-// Space: O()
+// Time:  O(nlogn)
+// Space: O(n)
 
 /********************************************************************************** 
 * 
-* Given an array which consists of non-negative integers and an integer m, you can split the array into m non-empty continuous subarrays. Write an algorithm to minimize the largest sum among these m subarrays.
+* Given an array which consists of non-negative integers and an integer m,
+* you can split the array into m non-empty continuous subarrays. 
+* Write an algorithm to minimize the largest sum among these m subarrays.
 * 
 * Note:
 * If n is the length of array, assume the following constraints are satisfied:
@@ -20,8 +22,7 @@
 * 
 * Explanation:
 * There are four ways to split nums into two subarrays.
-* The best way is to split it into [7,2,5] and [10,8],
-* where the largest sum among the two subarrays is only 18.
+* The best way is to split it into [7,2,5] and [10,8], where the largest sum among the two subarrays is only 18.
 *    
 **********************************************************************************/
 
@@ -31,16 +32,15 @@ public:
     bool canSplit(vector<int>& nums, int m, long long sum) {
         int c = 1;
         long long s = 0;
-        for (auto& num : nums) {
+        for (auto& num : nums) {  // 找到和最大且小于等于sum
             s += num;
             if (s > sum) {
-                s = num;
+                s = num;  // 从当前num开始计算s
                 ++c;
             }
         }
-        return c <= m;
+        return c <= m;  // c > m 分组过多，mid低
     }
-
     int splitArray(vector<int>& nums, int m) {
         long long left = 0, right = 0;
         for (auto& num : nums) {
@@ -57,3 +57,17 @@ public:
         return left;
     }
 };
+// Explaination:
+// https://discuss.leetcode.com/topic/61395/c-fast-very-clear-explanation-clean-code-solution-with-greedy-algorithm-and-binary-search/7
+// http://www.cnblogs.com/grandyang/p/5933787.html
+/* 如果m和数组nums的个数相等，那么每个数组都是一个子数组，所以返回nums中最大的数字即可，
+* 如果m为1，那么整个nums数组就是一个子数组，返回nums所有数字之和，所以对于其他有效的m值，返回的值必定在上面两个值之间，所以可以用二分搜索法来做。
+* 用一个例子来分析，nums = [1, 2, 3, 4, 5], m = 3，将left设为数组中的最大值5，right设为数字之和15，
+* 然后算出中间数为10，接下来要做的是找出和最大且小于等于10的子数组的个数，[1, 2, 3, 4], [5]，
+* 可以看到无法分为3组，说明mid偏大，所以让right=mid，然后再次进行二分查找，算出mid=7，
+* 再次找出和最大且小于等于7的子数组的个数，[1,2,3], [4], [5]，成功的找出了三组，说明mid还可以进一步降低，我们让right=mid+1，
+* 然后再次进行二分查找，算出mid=6，再次找出和最大且小于等于6的子数组的个数，[1,2,3], [4], [5]，成功的找出了三组，
+* 尝试着继续降低mid，让right=mid，然后再次进行二分查找，算出mid=5，
+* 再次找出和最大且小于等于5的子数组的个数，[1,2], [3], [4], [5]，发现有4组，
+* 此时mid太小了，应该增大mid，我们让left=mid+1，此时left=6，right=5，循环退出了，返回left即可。
+*/
