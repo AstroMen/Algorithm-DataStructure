@@ -36,6 +36,9 @@ public:
         return res;
     }
 };
+// Example:
+// nums[] 1 4 6 2 8 9 7
+// dp[]   1 2 3 2 4 5 4  calculate how many numbers before dp[i] less than dp[i]
 
 //Binary Search 113m //https://discuss.leetcode.com/topic/28696/9-lines-c-code-with-o-nlogn-complexity
 class Solution {
@@ -50,3 +53,10 @@ public:
         return res.size();
     }
 };
+// Example:
+// nums[] 1 4 6 2 8 9 7
+// dp[]   1 4 6 8 9
+//          | |
+//          2 6
+//            |
+//            7
