@@ -6,18 +6,19 @@ using namespace std;
 //Solution：将数组分成前后两段，使得前半段都小于根结点，后半段都大于根结点。
 bool CanPostOrder(const int* a, int size)
 {
-    if(size<=1)  //一个元素一定是后序遍历结果
+    if(size<=1)  // 一个元素，一定是后序遍历结果
         return true;
-    int root=a[size-1];
+    int root=a[size-1];  // 最后一个元素是根
     int nLeft=0;
     while(nLeft<size-1 && a[nLeft]<=root)
         nLeft++;
-    int nRight=size-2;
+    int nRight=size-2;  // size-1是根
     while(nRight>=0 && a[nRight]>=root)
         nRight--;
-    if(nRight!=nLeft-1)
+    if(nRight!=nLeft-1)  //无法根据root分成两部分。如果可以后序遍历，nRight+1=nLeft
         return false;
-    return CanPostOrder(a,nLeft)&&CanPostOrder(a+nLeft,size-nLeft-1);
+    return CanPostOrder(a,nLeft) && CanPostOrder(a+nLeft,size-nLeft-1);
+    //     左子树                    右子树                 总    左  根
 }
 int main()
 {
