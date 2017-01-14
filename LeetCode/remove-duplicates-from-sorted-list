@@ -1,0 +1,42 @@
+// Source : https://leetcode.com/problems/remove-duplicates-from-sorted-list/
+// Time:  O(n)
+// Space: O(1)
+
+/********************************************************************************** 
+* 
+* Given a sorted linked list, delete all duplicates such that each element appear only once.
+* 
+* For example,
+* Given 1->1->2, return 1->2.
+* Given 1->1->2->3->3, return 1->2->3. 
+*    
+**********************************************************************************/
+
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+//9ms My solution
+class Solution {
+public:
+    ListNode* deleteDuplicates(ListNode* head) {
+        if(head==nullptr) return nullptr;
+        ListNode* p = head;
+        while(p)
+        {
+            if(p->next && p->val == p->next->val)
+            {
+                ListNode* node = p->next;
+                p->next = p->next->next;
+                delete node;
+            }
+            else
+                p = p->next;
+        }
+        return head;
+    }
+};
