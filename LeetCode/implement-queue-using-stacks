@@ -1,0 +1,45 @@
+// Source : https://leetcode.com/problems/implement-queue-using-stacks/
+// Time:  O(n)
+// Space: O(n)
+
+/********************************************************************************** 
+* 
+* Implement the following operations of a queue using stacks.
+* 
+*   push(x) -- Push element x to the back of queue.
+*   pop() -- Removes the element from in front of queue.
+*   peek() -- Get the front element.
+*   empty() -- Return whether the queue is empty.
+* 
+**********************************************************************************/
+
+//0ms From: https://discuss.leetcode.com/topic/17984/accepted-0ms-c-solution-with-two-std-stack-easy-understand
+class Queue {
+public:
+    // Push element x to the back of queue.
+    void push(int x) {
+        while (!nums.empty()) {
+          helper.push(nums.top());
+          nums.pop();
+        }
+        nums.push(x);
+        while (!helper.empty()) {
+          nums.push(helper.top());
+          helper.pop();
+        }
+    }
+    // Removes the element from in front of queue.
+    void pop(void) {
+        nums.pop();
+    }
+    // Get the front element.
+    int peek(void) {
+        return nums.top();
+    }
+    // Return whether the queue is empty.
+    bool empty(void) {
+	    return nums.empty();
+    }
+private:
+	std::stack<int> helper, nums;
+};
