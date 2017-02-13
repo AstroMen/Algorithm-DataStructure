@@ -35,10 +35,10 @@ public:
     void addNum(int num) {
         small.push(num);
         large.push(-small.top());
-        small.pop();
+        small.pop();        // pop the largest number in small queue
         if (small.size() < large.size()) {
             small.push(-large.top());
-            large.pop();
+            large.pop();        // pop the smallest number in large queue
         }
     }
     double findMedian() {
