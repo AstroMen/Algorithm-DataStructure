@@ -1,0 +1,56 @@
+// Source : https://leetcode.com/problems/find-largest-value-in-each-tree-row/
+// Time:  O()
+// Space: O()
+
+/********************************************************************************** 
+* 
+* You need to find the largest value in each row of a binary tree.
+* 
+* Example:
+* Input: 
+*           1
+*          / \
+*         3   2
+*        / \   \  
+*       5   3   9 
+* 
+* Output: [1, 3, 9]
+* 
+**********************************************************************************/
+//12ms https://discuss.leetcode.com/topic/78942/c-bfs-solution
+class Solution {
+public:
+    vector<int> findValueMostElement(TreeNode* root) {
+        if(root == nullptr) return {};
+        queue<TreeNode*> q;
+        queue<int> level;
+        
+        q.push(root);
+        level.push(0);
+        vector<int> mac;
+        
+        int m=-1;
+        while(q.size()){
+            TreeNode *r = q.front(); q.pop();
+            int l = level.front(); level.pop();
+            if(r->left) {
+                q.push(r->left);
+                level.push(l+1);
+            }
+            
+            if(r->right){
+                q.push(r->right);
+                level.push(l+1);
+            }
+            
+            if(l > m){
+                m = l;
+                mac.push_back(r->val);
+            } else {
+                mac[l] = std::max(mac[l], r->val);
+            }
+        }
+        
+        return mac;
+    }
+};
