@@ -1,0 +1,40 @@
+// Source : https://leetcode.com/problems/convert-sorted-array-to-binary-search-tree/
+// Time:  O()
+// Space: O()
+
+/********************************************************************************** 
+* 
+* Given an array where elements are sorted in ascending order, convert it to a height balanced BST.
+* 
+**********************************************************************************/
+
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+//13ms https://discuss.leetcode.com/topic/6472/accepted-c-recursive-solution-within-a-single-method
+class Solution {
+public:
+    TreeNode* sortedArrayToBST(vector<int>& nums) {
+        if(nums.size() == 0) return NULL;
+        if(nums.size() == 1)
+            return new TreeNode(nums[0]);
+        
+        int middle = nums.size()/2;
+        TreeNode* root = new TreeNode(nums[middle]);
+        
+        vector<int> leftInts(nums.begin(), nums.begin() + middle);
+        vector<int> rightInts(nums.begin() + middle+1, nums.end());
+        
+        root->left = sortedArrayToBST(leftInts);
+        root->right = sortedArrayToBST(rightInts);
+        
+        return root;
+    }
+};
+
