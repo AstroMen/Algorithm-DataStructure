@@ -1,0 +1,94 @@
+// Source : https://leetcode.com/problems/find-bottom-left-tree-value/
+// Time:  O()
+// Space: O()
+
+/********************************************************************************** 
+* 
+* Given a binary tree, find the leftmost value in the last row of the tree.
+* 
+* Example 1:
+* Input:
+*     2
+*    / \
+*   1   3
+* Output:
+* 1
+* 
+* Example 2:
+* Input:
+*         1
+*        / \
+*       2   3
+*      /   / \
+*     4   5   6
+*        /
+*       7
+* Output:
+* 7
+* 
+* Note: You may assume the tree (i.e., the given root node) is not NULL. 
+* 
+**********************************************************************************/
+
+//13ms BFS From: https://discuss.leetcode.com/topic/78940/c-bfs-solution
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    int findBottomLeftValue(TreeNode* root) {
+        queue<TreeNode*> q;
+        queue<int> level;
+        
+        q.push(root);
+        level.push(0);
+        
+        int m=0;
+        while(q.size()){
+            TreeNode *r = q.front(); q.pop();
+            int l = level.front(); level.pop();
+            if(r->left) {
+                q.push(r->left);
+                level.push(l+1);
+            }
+            
+            if(r->right){
+                q.push(r->right);
+                level.push(l+1);
+            }
+            
+            if(l > m){
+                m = l;
+                root = r;
+            }
+        }
+        return root->val;
+    }
+};
+
+//12ms DFS From: https://discuss.leetcode.com/topic/79091/c-_dfs
+class Solution {
+public:
+    pair<int, int> res;//level, val
+    int findBottomLeftValue(TreeNode* root) {
+        res.first = 0;
+        res.second = root->val;
+        dfs(root, 0);
+        return res.second;
+    }
+    void dfs(TreeNode* root, int level){
+        if(root == nullptr) return;
+        if(level > res.first){
+            res.first = level;
+            res.second = root->val;
+        }
+        dfs(root->left, level+1);
+        dfs(root->right, level+1);
+    }
+};
