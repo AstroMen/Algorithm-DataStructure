@@ -29,6 +29,7 @@ public:
         for (auto& c : s) m[c-'\0']++;    // '\0' is 0. Only to repair warning about the type coercion
         int result = 0;
         for (auto& i : m) result += i%2 ? (result%2 ? i-1 : i) : i;
+        //                                 奇数   已有单独位  未有  偶数
         return result;
     }
 };
