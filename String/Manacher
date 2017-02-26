@@ -37,9 +37,9 @@ void Manacher(const char* s, int& from, int& to)
 	    ml = P[i];
 	    center = i;
 	}
-	from = (center - ml) / 2;
-        to = from + ml - 2;
     }
+    from = (center - ml) / 2;
+    to = from + ml - 2;
 }
 void Print(const char* str, int from, int to)
 {
