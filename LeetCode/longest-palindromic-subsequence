@@ -1,10 +1,12 @@
-// Source : https://leetcode.com/problems/longest-palindromic-subsequence/
-// Time:  O()
-// Space: O()
+// Source: https://leetcode.com/problems/longest-palindromic-subsequence/
+// Time:  O(n^2)
+// Space: O(n)
+// Method: Dynamic Programming.
 
 /********************************************************************************** 
 * 
-* Given a string s, find the longest palindromic subsequence's length in s. You may assume that the maximum length of s is 1000.
+* Given a string s, find the longest palindromic subsequence's length in s. 
+* You may assume that the maximum length of s is 1000.
 * 
 * Example 1:
 * Input:
@@ -22,45 +24,55 @@
 * 
 **********************************************************************************/
 
-//https://discuss.leetcode.com/topic/78579/dynamic-programming-solution-with-reference
-//http://www.geeksforgeeks.org/dynamic-programming-set-12-longest-palindromic-subsequence/
+//79ms From: https://discuss.leetcode.com/topic/78579/dynamic-programming-solution-with-reference
 class Solution {
 public:
     int longestPalindromeSubseq(string s) {
-        int n = s.size();
-        if(n < 2) return n;
-        int i, j, count;
-        //int dp[n][n];  // Create a table to store results of subproblems
-        vector<vector<int> > dp(n, vector<int>(n, 0));
-        
+        int n = s.length();
+        vector<vector<int> > dp(n+1, vector<int>(n+1,0)); // Create a table to store results of subproblems
+    
         // Strings of length 1 are palindrome of lentgh 1
-        for (i = 0; i < n; i++)
+        for (int i = 0; i < n; i++)
             dp[i][i] = 1;
-
-        for(count=2; count<=n; count++)
+    
+        for(int count=2; count<=n; count++)
         {
-            for(i=0; i<n-i+1; i++)
+            for(int i=0; i<n-i+1; i++)
             {
-                j = i+count-1;
+                int j = i+count-1;
                 if(s[i] == s[j] && count == 2)
                     dp[i][j] = 2;
                 else if(s[i] == s[j])
-                    dp[i][j] = dp[i+1][j-1]+2;// dp[i][j-1], dp[i+1][j] dp[i+1][j-1]+2
+                    dp[i][j] = dp[i+1][j-1]+2;  // dp[i][j-1], dp[i+1][j], dp[i+1][j-1]+2
                 else
                     dp[i][j] = max(dp[i][j-1], dp[i+1][j]);
             }
         }
         return dp[0][n-1];
+    }
+};
+
+//112ms Explanation: https://discuss.leetcode.com/topic/78685/sharing-my-clean-o-n-2-c-dp-solution-super-easy-and-clear
+class Solution {
+public:
+    //lhs means left hand side, rhs means right hand side
+    int longestPalindromeSubseq(string s) {
+        if (s.empty()) return 0;
         
-        int N = s.size();
-        vector<vector<int> > dp(1+N, vector<int>(1+N, 0));
-        for(int i = 0; i <= N; i++) dp[i][i] = 1;
-        for(int len = 2; len <= N; len++) {
-            for(int i = 1; i+len-1 <= N; i++) {
-                int j = i + len-1;
-                dp[i][j] = max(dp[i][j-1], max(dp[i+1][j], dp[i+1][j-1] + (len >= 2 && s[i-1] == s[j-1] ? 2 : INT_MIN)));
+        vector<vector<int>> longest(s.size(), vector<int>(s.size()));
+        for (int len=1; len<=s.size(); len++) {
+            for (int lhs=0; lhs+len<=s.size(); lhs++) {
+                int rhs = lhs+len-1;
+                if (lhs == rhs) {
+                    longest[lhs][rhs] = 1;
+                } else if (lhs+1 == rhs) {
+                    longest[lhs][rhs] = (s[lhs] == s[rhs]) ? 2 : 1;
+                } else {
+                    int add = s[lhs] == s[rhs] ? 2 : 0;
+                    longest[lhs][rhs] = max(max(longest[lhs][rhs-1], longest[lhs+1][rhs]), longest[lhs+1][rhs-1] + add);
+                }
             }
         }
-        return dp[1][N];
+        return longest[0].back();
     }
 };
