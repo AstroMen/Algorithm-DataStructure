@@ -41,7 +41,7 @@ public:
             char ch = s[end] - 'A';
             count[ch]++;
             max_occur = max(max_occur, count[ch]);
-            if (end - start - max_occur + 1 > k) {
+            if (end - start + 1 - max_occur > k) {
                 count[s[start] - 'A']--;
                 start++;
             }
