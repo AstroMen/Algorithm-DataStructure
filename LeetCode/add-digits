@@ -1,6 +1,7 @@
 // Source : https://leetcode.com/problems/add-digits/
 // Time:  O(log n)
 // Space: O(1)
+// Method: Congruence formula. (Refer to https://en.wikipedia.org/wiki/Digital_root#Congruence_formula)
 
 /********************************************************************************** 
 * 
