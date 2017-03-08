@@ -81,11 +81,12 @@ void GetNext2(char* p, int next[])
         }
     }
 }
-int KMP(int n, char* g_s, char* g_pattern, int g_next[])
+int KMP(char* g_s, char* g_pattern, int g_next[])
 {
     int ans = -1;
     int i = 0;
     int j = 0;
+    int n = strlen(g_s);
     int pattern_len = strlen(g_pattern);
     while(i < n)
     {
@@ -119,12 +120,11 @@ int main()
     int nLen = (int)strlen(g_pattern);
 
     int g_next[nLen];
-    GetNext2(g_pattern, g_next);
+    GetNext(g_pattern, g_next);
     Print(g_next, nLen);
 
-    int result = KMP((int)strlen(g_s), g_s, g_pattern, g_next);
+    int result = KMP(g_s, g_pattern, g_next);
     cout << result << endl;  // index
     cout << MinPeriod(g_pattern) << endl;
-
     return 0;
 }
