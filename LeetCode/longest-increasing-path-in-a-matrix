@@ -31,11 +31,58 @@
 *    
 **********************************************************************************/
 
+//33ms https://discuss.leetcode.com/topic/35063/c-dp-dfs-solution-sharing/2
 class Solution {
 public:
     int longestIncreasingPath(vector<vector<int>>& matrix) {
-        if(matrix.size()==0) return 0;
         int row = matrix.size();
+        if (!row) return 0;
+        int col = matrix[0].size();
+        vector<vector<int> > dp(row, vector<int>(col, 0));
+        int maxPath = 0, cur;
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < col; j++) {
+                cur = DFS(matrix, dp , i, j, row, col);
+                maxPath = max(maxPath, cur);
+            }
+        }
+        return maxPath;
+    }
+    int DFS(vector<vector<int>>& matrix, vector<vector<int>>& dp, int i, int j, int row, int col) {
+        if (dp[i][j] > 0) {
+            return dp[i][j];
+        }
+        int m[4] = {-1,1,0,0};
+        int n[4] = {0,0,-1,1};
+        dp[i][j] = 1;
+        for(int k=0; k<4; k++)
+        {
+            if(isAvailble(matrix, i+m[k], j+n[k]))
+            {
+                if(matrix[i+m[k]][j+n[k]]>matrix[i][j])
+                {
+                    dp[i][j] = max(1 + DFS(matrix, dp, i+m[k], j+n[k], row, col), dp[i][j]);
+                }
+            }
+        }
+        return dp[i][j];
+    }
+    bool isAvailble(const vector<vector<int> >& matrix, const int i, const int j)
+    {
+        int row = matrix.size();
+        int col = matrix[0].size();
+        if(i<0 || i>=row || j<0 || j>=col)
+            return false;
+        return true;
+    }
+};
+
+//TLE My solution
+class Solution {
+public:
+    int longestIncreasingPath(vector<vector<int>>& matrix) {
+        int row = matrix.size();
+        if(row == 0) return 0;
         int col = matrix[0].size();
         vector<vector<int>> visit(row, vector<int>(col, 0));
         int curPath = 1;
@@ -56,6 +103,7 @@ public:
         
         for(int k=0; k<4; k++)
         {
+            int curPath_tmp = curPath;
             if(isAvailble(matrix, i+m[k], j+n[k]))
             {
                 if(!visit[i+m[k]][j+n[k]])
@@ -63,17 +111,19 @@ public:
                     if(matrix[i+m[k]][j+n[k]]>matrix[i][j])
                     {
                         visit[i][j] = 1;
-                        longIncPathHelper(matrix, visit, i+m[k], j+n[k], ++curPath, maxPath);
+                        longIncPathHelper(matrix, visit, i+m[k], j+n[k], ++curPath_tmp, maxPath);
                         visit[i][j] = 0;
-                        //visit ?? curPath??
                     }
+                    /*
                     else
                     {
                         maxPath=max(curPath, maxPath);
                         curPath--;
                     }
+                    */
                 }
             }
+            maxPath=max(curPath_tmp, maxPath);
         }
     }
     bool isAvailble(const vector<vector<int>>& matrix, const int i, const int j)
