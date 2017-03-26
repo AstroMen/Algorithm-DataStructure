@@ -37,3 +37,13 @@ public:
         return dummy->next;
     }
 };
+
+//29ms From: https://discuss.leetcode.com/topic/12580/3-line-recursive-solution
+class Solution {
+public:
+    ListNode* removeElements(ListNode* head, int val) {
+        if (head == NULL) return NULL;
+        head->next = removeElements(head->next, val);
+        return head->val == val ? head->next : head;
+    }
+};
