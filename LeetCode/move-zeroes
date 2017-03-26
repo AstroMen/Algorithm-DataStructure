@@ -47,3 +47,22 @@ public:
         }
     }
 };
+
+//26ms From: https://github.com/liuyubobobo/Play-with-Algorithm-Interview/blob/master/03-Using-Array/Course%20Code%20%28C%2B%2B%29/04-Move-Zeroes-II/main4.cpp
+class Solution {
+public:
+    void moveZeroes(vector<int>& nums) {
+
+        int k = 0; // nums中, [0...k)的元素均为非0元素
+
+        // 遍历到第i个元素后,保证[0...i]中所有非0元素
+        // 都按照顺序排列在[0...k)中
+        // 同时, [k...i] 为0
+        for(int i = 0 ; i < nums.size() ; i ++ )
+            if( nums[i] )
+                if( k != i )
+                    swap( nums[k++] , nums[i] );
+                else
+                    k ++;
+    }
+};
