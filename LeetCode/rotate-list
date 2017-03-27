@@ -1,0 +1,56 @@
+// Source: https://leetcode.com/problems/
+// Time:  O()
+// Space: O()
+
+/********************************************************************************** 
+* 
+* Given a list, rotate the list to the right by k places, where k is non-negative.
+* 
+* For example:
+* Given 1->2->3->4->5->NULL and k = 2,
+* return 4->5->1->2->3->NULL.
+* 
+**********************************************************************************/
+
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+//15ms From: https://discuss.leetcode.com/topic/37989/sharing-my-8ms-c-solution
+/**
+ * 1) connect the head with the tail, and form a closed circle
+ * 2) rotate (n-k%n) times
+ * 3) find the new head and tail, break them apart, and return the new head
+ */
+class Solution {
+public:
+    ListNode* rotateRight(ListNode* head, int k) {
+        if(head==NULL || head->next==NULL)
+            return head;
+            
+        int n = 1;
+        ListNode* p = head;
+        while(p->next)
+        {
+            n++;
+            p=p->next;
+        }
+        p->next = head;
+        
+        k = k%n;
+        k = n-k;
+        ListNode* last;
+        ListNode* current = head;
+        for(int i=0; i<k; i++)
+        {
+            last = current;
+            current = current->next;
+        }
+        last->next = NULL;
+        return current;
+    }
+};
