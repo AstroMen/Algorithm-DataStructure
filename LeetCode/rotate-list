@@ -1,6 +1,6 @@
-// Source: https://leetcode.com/problems/
-// Time:  O()
-// Space: O()
+// Source: https://leetcode.com/problems/rotate-list/
+// Time:  O(n)
+// Space: O(1)
 
 /********************************************************************************** 
 * 
@@ -31,7 +31,7 @@ public:
     ListNode* rotateRight(ListNode* head, int k) {
         if(head==NULL || head->next==NULL)
             return head;
-            
+        
         int n = 1;
         ListNode* p = head;
         while(p->next)
@@ -39,8 +39,10 @@ public:
             n++;
             p=p->next;
         }
+        // 1) connect the head with the tail, and form a closed circle
         p->next = head;
         
+        // 2) rotate (n-k%n) times
         k = k%n;
         k = n-k;
         ListNode* last;
@@ -50,6 +52,7 @@ public:
             last = current;
             current = current->next;
         }
+        // 3) find the new head and tail, break them apart, and return the new head
         last->next = NULL;
         return current;
     }
