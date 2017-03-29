@@ -1,0 +1,66 @@
+// Source: https://leetcode.com/problems/remove-duplicates-from-sorted-array/
+// Time:  O()
+// Space: O()
+
+/********************************************************************************** 
+* 
+* Given a sorted array, remove the duplicates in place such that each element appear only once and return the new length.
+* 
+* Do not allocate extra space for another array, you must do this in place with constant memory.
+* 
+* For example,
+* Given input array nums = [1,1,2],
+* 
+* Your function should return length = 2, with the first two elements of nums being 1 and 2 respectively. It doesn't matter what you leave beyond the new length. 
+* 
+**********************************************************************************/
+
+//26ms From: https://discuss.leetcode.com/topic/8907/share-my-clean-c-code
+class Solution {
+public:
+    int removeDuplicates(vector<int>& nums) {
+        int count = 0;
+        int n = nums.size();
+        for(int i = 1; i < n; i++){
+            if(nums[i] == nums[i-1-count]) count++;
+            else nums[i-count] = nums[i];
+        }
+        return n-count;
+    }
+};
+
+//26ms From: https://discuss.leetcode.com/topic/17252/5-lines-c-java-nicer-loops
+class Solution {
+public:
+    int removeDuplicates(vector<int>& nums) {
+        int removeDuplicates(vector<int>& nums) {
+        int i = 0;
+        for (int n : nums)
+            if (!i || n > nums[i-1])
+                nums[i++] = n;
+        return i;
+    }
+};
+
+// This solution can be easily generalized to "at most K duplicates". From: https://discuss.leetcode.com/topic/17180/3-6-easy-lines-c-java-python-ruby/18
+int removeDuplicates(vector<int>& nums, int k) {
+    int i = 0;
+    for (int n : nums)
+        if (i < k || n > nums[i-k])
+            nums[i++] = n;
+    return i;
+}
+
+/* 
+* This is my short and easy to understand solution for the problem where duplicates are allowed at most k times. My approach is to remain first k elements as it is . Now start from k'th index and check if the element at the position current index - k this is the same as new arriving element then skip this element and continue with next element .
+* here the condition nums[j-k]!=nums[i] is very important because if i will use i in place of j i.e. nums[i-k]!=nums[i] then it will give wrong answer because we have to look k steps backward in new updated array.
+*
+* From: https://discuss.leetcode.com/topic/48944/share-my-o-n-time-and-o-1-space-short-and-simple-solution-when-duplicates-are-allowed-at-most-k-times/2
+*/
+int removeDuplicates(vector<int>& nums,int k) {
+    if(nums.size()<k) return nums.size(); // if array size is less than k then return the same
+    int i,j;
+    for(i=k,j=k ; i<nums.size();i++)
+        if(nums[j-k]!=nums[i]) nums[j++]=nums[i];
+    return j;
+}
