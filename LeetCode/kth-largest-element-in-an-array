@@ -21,14 +21,14 @@ public:
         size_t len = nums.size();
         if(len < k) return 0;
 
-        priority_queue<int, std::vector<int>, std::greater<int>> q;
+        priority_queue<int, std::vector<int>, std::greater<int>> q;  //greater<int>: min heap
         for(auto &v : nums)
         {
             if(q.size() < k)
             {
                 q.push(v);
             }
-            else if (v > q.top())  //top is the biggest value
+            else if (v > q.top())  //top is the smallest value
             {
                 q.pop();
                 q.push(v);
