@@ -45,27 +45,27 @@ I'll keep updating for full summary and better solutions. Stay tuned for updates
 ## Bit Manipulation
   #  | Title           |  Solution       |  Time           | Space           | Difficulty    | Tag          | Note
 -----|---------------- | --------------- | --------------- | --------------- | ------------- |--------------| -----
-136 | [Single Number](https://leetcode.com/problems/single-number/) | [C++](./single-number) | _O(n)_       | _O(1)_          | Easy         ||
-137 | [Single Number II](https://leetcode.com/problems/single-number-ii/) | [C++](./single-number-ii) | _O(n)_ | _O(1)_          | Medium         ||
-190 | [Reverse Bits](https://leetcode.com/problems/reverse-bits/)  | [C++](./reverse-bits) | _O(1)_        | _O(1)_          | Easy           ||
-191  |[Number of 1 Bits](https://leetcode.com/problems/number-of-1-bits/) | [C++](./number-of-1-bits) | _O(1)_ | _O(1)_          | Easy           ||
-201 | [Bitwise AND of Numbers Range](https://leetcode.com/problems/bitwise-and-of-numbers-range/) | [C++](./bitwise-and-of-numbers-range) | _O(1)_ | _O(1)_ | Medium ||
-231 | [Power of Two](https://leetcode.com/problems/power-of-two/) | [C++](./power-of-two) | _O(1)_ | _O(1)_ | Easy | LintCode |
-260 | [Single Number III](https://leetcode.com/problems/single-number-iii/) | [C++](./single-number-iii) | _O(n)_ | _O(1)_          | Medium         ||
-268| [Missing Number](https://leetcode.com/problems/missing-number/) | [C++](./missing-number)  | _O(n)_ |  _O(1)_ | Medium         | LintCode ||
-318| [Maximum Product of Word Lengths](https://leetcode.com/problems/maximum-product-of-word-lengths/) | [C++](./maximum-product-of-word-lengths)  | _O(n)_ ~ _O(n^2)_ |  _O(n)_ | Medium         || Bit Manipulation, Counting Sort, Pruning|
-342 | [Power of Four](https://leetcode.com/problems/power-of-four/) | [C++](./power-of-four) | _O(1)_ | _O(1)_ | Easy | |
-371 | [Sum of Two Integers](https://leetcode.com/problems/sum-of-two-integers/) | [C++](./sum-of-two-integers) | _O(1)_ | _O(1)_ | Easy | LintCode |
-389 | [Find the Difference](https://leetcode.com/problems/find-the-difference/) | [C++](./find-the-difference) | _O(n)_ | _O(1)_ | Easy | |
-393 | [UTF-8 Validation](https://leetcode.com/problems/utf-8-validation/) | [C++](./utf-8-validation) | _O(n)_ | _O(1)_ | Medium | |
-401 | [Binary Watch](https://leetcode.com/problems/binary-watch/) | [C++](./binary-watch) [Python](./Python/binary-watch.py) | _O(1)_ | _O(1)_ | Easy | |
-411 | [Minimum Unique Word Abbreviation](https://leetcode.com/problems/minimum-unique-word-abbreviation/) | [C++](./minimum-unique-word-abbreviation) | _O(2^n)_ | _O(n)_ | Hard | 📖 |
-421 | [Maximum XOR of Two Numbers in an Array](https://leetcode.com/problems/maximum-xor-of-two-numbers-in-an-array/) | [C++](./maximum-xor-of-two-numbers-in-an-array) | _O(n)_ | _O(1)_ | Medium ||
+136 | [Single Number](https://leetcode.com/problems/single-number/) | [C++](./single-number) | _O(n)_       | _O(1)_          | Easy         ||  
+137 | [Single Number II](https://leetcode.com/problems/single-number-ii/) | [C++](./single-number-ii) | _O(n)_ | _O(1)_          | Medium         ||  
+190 | [Reverse Bits](https://leetcode.com/problems/reverse-bits/)  | [C++](./reverse-bits) | _O(1)_        | _O(1)_          | Easy           ||  
+191  |[Number of 1 Bits](https://leetcode.com/problems/number-of-1-bits/) | [C++](./number-of-1-bits) | _O(1)_ | _O(1)_          | Easy           ||  
+201 | [Bitwise AND of Numbers Range](https://leetcode.com/problems/bitwise-and-of-numbers-range/) | [C++](./bitwise-and-of-numbers-range) | _O(1)_ | _O(1)_ | Medium ||  
+231 | [Power of Two](https://leetcode.com/problems/power-of-two/) | [C++](./power-of-two) | _O(1)_ | _O(1)_ | Easy | LintCode |  
+260 | [Single Number III](https://leetcode.com/problems/single-number-iii/) | [C++](./single-number-iii) | _O(n)_ | _O(1)_          | Medium         ||  
+268| [Missing Number](https://leetcode.com/problems/missing-number/) | [C++](./missing-number)  | _O(n)_ |  _O(1)_ | Medium         | LintCode ||  
+318| [Maximum Product of Word Lengths](https://leetcode.com/problems/maximum-product-of-word-lengths/) | [C++](./maximum-product-of-word-lengths)  | _O(n)_ ~ _O(n^2)_ |  _O(n)_ | Medium         || Bit Manipulation, Counting Sort, Pruning|  
+342 | [Power of Four](https://leetcode.com/problems/power-of-four/) | [C++](./power-of-four) | _O(1)_ | _O(1)_ | Easy | |  
+371 | [Sum of Two Integers](https://leetcode.com/problems/sum-of-two-integers/) | [C++](./sum-of-two-integers) | _O(1)_ | _O(1)_ | Easy | LintCode |  
+389 | [Find the Difference](https://leetcode.com/problems/find-the-difference/) | [C++](./find-the-difference) | _O(n)_ | _O(1)_ | Easy | |  
+393 | [UTF-8 Validation](https://leetcode.com/problems/utf-8-validation/) | [C++](./utf-8-validation) | _O(n)_ | _O(1)_ | Medium | |  
+401 | [Binary Watch](https://leetcode.com/problems/binary-watch/) | [C++](./binary-watch) [Python](./Python/binary-watch.py) | _O(1)_ | _O(1)_ | Easy | |  
+411 | [Minimum Unique Word Abbreviation](https://leetcode.com/problems/minimum-unique-word-abbreviation/) | [C++](./minimum-unique-word-abbreviation) | _O(2^n)_ | _O(n)_ | Hard | 📖 |  
+421 | [Maximum XOR of Two Numbers in an Array](https://leetcode.com/problems/maximum-xor-of-two-numbers-in-an-array/) | [C++](./maximum-xor-of-two-numbers-in-an-array) | _O(n)_ | _O(1)_ | Medium ||  
 
 ## Array
   #  | Title           |  Solution       |  Time           | Space           | Difficulty    | Tag          | Note
 -----|---------------- | --------------- | --------------- | --------------- | ------------- |--------------| -----
-15 | [3 Sum](https://leetcode.com/problems/3sum/)         | [C++](./3sum)       | _O(n^2)_        | _O(1)_          | Medium         || Two Pointers
+15 | [3 Sum](https://leetcode.com/problems/3sum/)         | [C++](./3sum)       | _O(n^2)_        | _O(1)_          | Medium         || Two Pointers  
 16 | [3 Sum Closest](https://leetcode.com/problems/3sum-closest/) | [C++](./3sum-closest) [Python](./Python/3sum-closest.py) | _O(n^2)_       | _O(1)_          | Medium         || Two Pointers
 18| [4 Sum](https://leetcode.com/problems/4sum/)         | [C++](./4sum)        | _O(n^3)_    | _O(1)_    | Medium         || Two Pointers
 26 | [Remove Duplicates from Sorted Array](https://leetcode.com/problems/remove-duplicates-from-sorted-array/)| [C++](./remove-duplicates-from-sorted-array) | _O(n)_       | _O(1)_         | Easy           || Two Pointers
