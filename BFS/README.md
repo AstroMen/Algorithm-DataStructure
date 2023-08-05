@@ -1,6 +1,6 @@
 # BFS 广度优先搜索
 
-##Word ladder (单词变换)
+## Word ladder (单词变换)
 * 给定字典和一个起点单词、一个终点单词，每次只能变换一个字母，问从起点单词是否可以到达终点单词？最短多少步？  
 * 如:  
 　start= "hit"  
@@ -10,7 +10,7 @@
    
 　　![image](https://github.com/AstroMen/Algorithm-DataStructure/blob/master/BFS/img/WordLadder-ChangeOneChar.jpg)  
   
-##Surrounded Regions (周围区域)  
+## Surrounded Regions (周围区域)  
 Given a 2D board containing 'X' and 'O' (the letter O), capture all regions surrounded by 'X'.  
 A region is captured by flipping all 'O's into 'X's in that surrounded region.  
   
