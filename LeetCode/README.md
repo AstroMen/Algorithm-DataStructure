@@ -64,7 +64,7 @@ I'll keep updating for full summary and better solutions. Stay tuned for updates
 
 ## Array
   #  | Title           |  Solution       |  Time           | Space           | Difficulty    | Tag          | Note
------|---------------- | --------------- | --------------- | --------------- | ------------- |--------------| -----
+-----|---------------- | --------------- | --------------- | --------------- | ------------- |--------------| -----  
 15 | [3 Sum](https://leetcode.com/problems/3sum/)         | [C++](./3sum)       | _O(n^2)_        | _O(1)_          | Medium         || Two Pointers  
 16 | [3 Sum Closest](https://leetcode.com/problems/3sum-closest/) | [C++](./3sum-closest) [Python](./Python/3sum-closest.py) | _O(n^2)_       | _O(1)_          | Medium         || Two Pointers  
 18| [4 Sum](https://leetcode.com/problems/4sum/)         | [C++](./4sum)        | _O(n^3)_    | _O(1)_    | Medium         || Two Pointers  
